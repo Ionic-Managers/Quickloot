@@ -15,7 +15,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../../public/logo.ico";
+import logo from "../../../assets/logo.ico";
 import Wallet from "../../Pages/Wallet/Wallet";
 import { auth } from '../../../firebase/Firebase';
 

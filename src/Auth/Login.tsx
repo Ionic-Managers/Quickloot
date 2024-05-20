@@ -7,7 +7,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../firebase/Firebase";
-import logo from "../../public/logo.ico";
+import logo from "../assets/logo.ico";
 import { useUser } from "../context/UserContext";
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 

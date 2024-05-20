@@ -5,14 +5,17 @@ import { db } from '../../../../firebase/Firebase';
 interface Recharge {
   id: string;
   rechargeAmount: number;
-  timestamp: any; 
+  timestamp: any;
   utrNumber: string;
+  url: string;
 }
 
 const RechargeTable: React.FC = () => {
   const [recharges, setRecharges] = useState<Recharge[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showImagePopup, setShowImagePopup] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<string>('');
 
   useEffect(() => {
     fetchRecharges();
@@ -23,7 +26,7 @@ const RechargeTable: React.FC = () => {
       const querySnapshot = await getDocs(query(collection(db, "RechargeList")));
       const loadedRecharges: Recharge[] = querySnapshot.docs.map(doc => ({
         ...doc.data() as Recharge,
-        id: doc.id  // Use document ID as the email
+        id: doc.id
       }));
       setRecharges(loadedRecharges);
       setLoading(false);
@@ -44,6 +47,15 @@ const RechargeTable: React.FC = () => {
     }
   };
 
+  const handleImageClick = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setShowImagePopup(true);
+  };
+
+  const handleCloseImagePopup = () => {
+    setShowImagePopup(false);
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -58,18 +70,26 @@ const RechargeTable: React.FC = () => {
               <th scope="col" className="px-6 py-3">Recharge Amount</th>
               <th scope="col" className="px-6 py-3">Timestamp</th>
               <th scope="col" className="px-6 py-3">UTR Number</th>
+              <th scope="col" className="px-6 py-3">Proof</th>
               <th scope="col" className="px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {recharges.map(({ id, rechargeAmount, timestamp, utrNumber }) => (
+            {recharges.map(({ id, rechargeAmount, timestamp, utrNumber, url }) => (
               <tr key={id} className="bg-white border-b hover:bg-gray-50">
                 <td className="px-6 py-4">{id}</td>
                 <td className="px-6 py-4">{rechargeAmount}</td>
                 <td className="px-6 py-4">{timestamp.toDate().toLocaleString()}</td>
                 <td className="px-6 py-4">{utrNumber}</td>
                 <td className="px-6 py-4">
-                  <button 
+                  <img
+                    src={url}
+                    alt=""
+                    className="h-12 w-12 object-cover cursor-pointer"
+                    onClick={() => handleImageClick(url)}
+                  />                </td>
+                <td className="px-6 py-4">
+                  <button
                     onClick={() => handleDelete(id)}
                     className="text-red-500 hover:text-red-700">Delete
                   </button>
@@ -79,6 +99,18 @@ const RechargeTable: React.FC = () => {
           </tbody>
         </table>
       </div>
+      {showImagePopup && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-75">
+          <div className="relative max-w-3xl mx-auto">
+            <button
+              onClick={handleCloseImagePopup}
+              className="absolute top-4 right-4 text-white text-lg focus:outline-none">
+              Close
+            </button>
+            <img src={selectedImage} alt="" className="max-w-full max-h-full" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

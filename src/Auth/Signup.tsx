@@ -9,7 +9,7 @@ import {
 import { ref, uploadBytes } from "firebase/storage";
 import { Timestamp, addDoc, collection, query, where, getDocs, updateDoc, increment, setDoc, doc, arrayUnion, getDoc } from 'firebase/firestore';
 import { auth, db, storage } from "../firebase/Firebase";
-import logo from "../../public/logo.ico";
+import logo from "../assets/logo.ico";
 import { useUser } from "../context/UserContext";
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 

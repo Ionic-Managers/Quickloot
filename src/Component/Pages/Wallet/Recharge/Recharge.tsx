@@ -1,32 +1,44 @@
 import React, { useState } from 'react';
 import Header from '../../../Layout/Header/Header';
 import Footer from '../../../Layout/footer/Footer';
-import { db, auth } from '../../../../firebase/Firebase';
+import { db, auth, storage } from '../../../../firebase/Firebase';
 import { doc, setDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import logo from '../../../../assets/upilogo.png';
+import { FaRegCopy } from "react-icons/fa6";
+import Toast from '../../../../Component/Layout/toast/Toast';
 
 const Recharge: React.FC = () => {
-    const [qrIndex, setQrIndex] = useState<number>(Math.floor(Math.random() * 5));
+    const [selectedUpiIndex, setSelectedUpiIndex] = useState<number | null>(null);
     const [utrNumber, setUtrNumber] = useState<string>('');
     const [rechargeAmount, setRechargeAmount] = useState<number | null>(null);
+    const [paymentProof, setPaymentProof] = useState<File | null>(null);
+    const [toastMessage, setToastMessage] = useState<string | null>(null);
     const currentUser = auth.currentUser;
 
     const qrDetails = [
-        { src: '../../../../../public/UPI/upi1.jpeg', upiId: 'mr2919635@okhdfcbank', name: 'Muthuraman M' },
-        { src: '../../../../../public/UPI/upi2.jpeg', upiId: 'priyadharshini140205@okaxis', name: 'Priya Dharshini' },
-        { src: '../../../../../public/UPI/upi3.jpeg', upiId: 'abrahama1906-2@okicici', name: 'Abraham A' },
-        { src: '../../../../../public/UPI/upi4.jpeg', upiId: 'masssaravanan854@okicici', name: 'Saravana Kumar' },
-        { src: '../../../../../public/UPI/upi5.jpeg', upiId: 'rockynaveen029-2@oksbi', name: 'Naveen Rocky' },
+        { upiId: 'saran2002murugan-1@oksbi', name: 'Saravanan M' },
+        { upiId: 'mchinnadurai582@okicici', name: 'M Chinnadurai' },
+        { upiId: 'rockykodi88@oksbi', name: 'Rocky Kodi' },
     ];
 
     const rechargeOptions = [100, 200, 500, 1000, 2000, 2500, 3000, 5000];
 
     const handleUtrSubmit = async () => {
+        if (selectedUpiIndex === null) {
+            setToastMessage('Please select a UPI ID');
+            return;
+        }
         if (!utrNumber || utrNumber.length !== 12 || !/^\d{12}$/.test(utrNumber)) {
-            alert('Please Enter UTR number');
+            setToastMessage('Please enter a valid 12-digit UTR number');
             return;
         }
         if (!rechargeAmount) {
-            alert('Please select a recharge amount');
+            setToastMessage('Please select a recharge amount');
+            return;
+        }
+        if (!paymentProof) {
+            setToastMessage('Please upload the payment proof');
             return;
         }
 
@@ -34,18 +46,41 @@ const Recharge: React.FC = () => {
         const timestamp = new Date();
 
         try {
+            const storageRef = ref(storage, `RechargeList/${userEmail}/${paymentProof.name}`);
+            await uploadBytes(storageRef, paymentProof);
+            const proofURL = await getDownloadURL(storageRef);
+
             const docRef = doc(db, 'RechargeList', userEmail);
             await setDoc(docRef, {
                 utrNumber: utrNumber.trim(),
                 rechargeAmount,
+                upiId: qrDetails[selectedUpiIndex].upiId,
+                proofURL,
                 timestamp
             }, { merge: false });
-            alert('Recharge information Sent Successfully Please wait 10 Minutes and get in your Wallet');
+
+            setToastMessage('Recharge information sent successfully. Please wait 10 minutes to see the balance in your wallet.');
             setUtrNumber('');
             setRechargeAmount(null);
+            setPaymentProof(null);
+            setSelectedUpiIndex(null);
         } catch (error) {
             console.error("Error adding document: ", error);
-            alert('Failed to save the recharge information.');
+            setToastMessage('Failed to save the recharge information.');
+        }
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setPaymentProof(e.target.files[0]);
+        }
+    };
+
+    const handleCopy = () => {
+        if (selectedUpiIndex !== null) {
+            navigator.clipboard.writeText(qrDetails[selectedUpiIndex].upiId)
+                .then(() => setToastMessage('UPI ID copied to clipboard'))
+                .catch((err) => console.error('Failed to copy UPI ID: ', err));
         }
     };
 
@@ -54,17 +89,32 @@ const Recharge: React.FC = () => {
             <Header />
             <div className="flex flex-col items-center justify-center">
                 <h1 className="text-2xl font-bold text-gray-700 mb-6 mt-24">Recharge Your Wallet</h1>
-                <div className='px-20'>
-                    <img src={qrDetails[qrIndex].src} alt="UPI QR Code" className="mb-3" />
+                <div className="px-1 grid grid-cols-3 md:grid-cols-3 gap-3 mb-6">
+                    {qrDetails.map((qr, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setSelectedUpiIndex(index)}
+                            className={`p-4 border rounded-lg focus:outline-none ${selectedUpiIndex === index ? 'border-blue-500' : 'border-gray-300'}`}>
+                            <p className="text-lg text-gray-800">UPI</p>
+                            <img src={logo} alt={`UPI logo ${index + 1}`} className="w-full h-auto" />
+                        </button>
+                    ))}
                 </div>
-                <p className="text-lg text-gray-800 mt-3">UPI ID: {qrDetails[qrIndex].upiId}</p>
-                <p className="text-md text-gray-600 mb-6">Name: {qrDetails[qrIndex].name}</p>
+                {selectedUpiIndex !== null && (
+                    <div className="mb-4">
+                        <div className="flex items-center text-lg text-gray-800 mt-3" onClick={handleCopy}>
+                            <span>UPI ID: {qrDetails[selectedUpiIndex].upiId}</span>
+                            <FaRegCopy className="ml-2 cursor-pointer" />
+                        </div>
+                        <p className="text-md text-gray-600 mb-6">Name: {qrDetails[selectedUpiIndex].name}</p>
+                    </div>
+                )}
                 <div className="grid grid-cols-2 gap-4 mb-4 mt-5">
                     {rechargeOptions.map(amount => (
                         <button
                             key={amount}
                             onClick={() => setRechargeAmount(amount)}
-                            className={`bg-white text-blue-700 border border-blue-300 hover:bg-blue-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${rechargeAmount === amount ? 'bg-blue-300' : ''}`}>
+                            className={`bg-white text-blue-700 border border-blue-300 hover:bg-blue-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${rechargeAmount === amount ? 'bg-blue-300' : ''}`}>
                             Recharge ₹{amount}
                         </button>
                     ))}
@@ -76,12 +126,18 @@ const Recharge: React.FC = () => {
                         value={utrNumber}
                         onChange={(e) => setUtrNumber(e.target.value)}
                         className="border border-gray-300 p-2 rounded-lg w-[325px]" />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="border border-gray-300 p-2 rounded-lg w-[325px] mt-4" />
                     <button
                         onClick={handleUtrSubmit}
                         className="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline sm:mb-10">
                         Submit
                     </button>
                 </div>
+                {toastMessage && <Toast message={toastMessage} onClose={() => setToastMessage(null)} />}
             </div>
             <div className='mt-4'>
                 <Footer />

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, UsersIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../../public/logo.ico";
+import logo from "../../../assets/logo.ico";
 import Footer from "../footer/Footer";
 import { GiTrophy } from "react-icons/gi";
 import bg from '../../../assets/gambling.jpeg';
