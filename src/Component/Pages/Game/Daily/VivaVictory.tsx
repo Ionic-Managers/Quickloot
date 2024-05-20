@@ -121,14 +121,14 @@ const MonthlyGame: React.FC = () => {
         <div className='mt-20'>
           <LotteryInfo gameName={"Viva Victory"} />
         </div>
-        <h2 className="text-xl sm:text-2xl mt-8 font-semibold mb-6 text-center">Select your numbers (1-100)</h2>
+        <h2 className="text-xl sm:text-2xl mt-8 font-semibold mb-6 text-center">Select your 5 numbers (1-100)</h2>
         {renderNumbers()}
         {ticketsGenerated && (
           <>
             <div className="relative mt-4 mb-4 w-64">
               <input
                 type="text"
-                placeholder="Search ticket codes..."
+                placeholder="Search 6-digits(661000)..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="text-center border border-gray-300 rounded p-2 pl-10 w-full"

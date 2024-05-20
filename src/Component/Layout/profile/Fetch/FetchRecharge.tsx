@@ -5,7 +5,7 @@ import { db } from '../../../../firebase/Firebase';
 interface Recharge {
   id: string;
   rechargeAmount: number;
-  timestamp: any; // Firebase timestamp object
+  timestamp: any; 
   utrNumber: string;
 }
 
@@ -23,7 +23,7 @@ const RechargeTable: React.FC = () => {
       const querySnapshot = await getDocs(query(collection(db, "RechargeList")));
       const loadedRecharges: Recharge[] = querySnapshot.docs.map(doc => ({
         ...doc.data() as Recharge,
-        id: doc.id  // Assuming 'id' is the document ID
+        id: doc.id  // Use document ID as the email
       }));
       setRecharges(loadedRecharges);
       setLoading(false);
@@ -37,7 +37,7 @@ const RechargeTable: React.FC = () => {
   const handleDelete = async (docId: string) => {
     try {
       await deleteDoc(doc(db, "RechargeList", docId));
-      setRecharges(prev => prev.filter(item => item.id !== docId));  // Update state to reflect deletion
+      setRecharges(prev => prev.filter(item => item.id !== docId));
     } catch (err) {
       console.error("Error deleting document:", err);
       alert("Failed to delete the document.");
@@ -54,6 +54,7 @@ const RechargeTable: React.FC = () => {
         <table className="min-w-full table-auto text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
+              <th scope="col" className="px-6 py-3">Email</th>
               <th scope="col" className="px-6 py-3">Recharge Amount</th>
               <th scope="col" className="px-6 py-3">Timestamp</th>
               <th scope="col" className="px-6 py-3">UTR Number</th>
@@ -63,6 +64,7 @@ const RechargeTable: React.FC = () => {
           <tbody>
             {recharges.map(({ id, rechargeAmount, timestamp, utrNumber }) => (
               <tr key={id} className="bg-white border-b hover:bg-gray-50">
+                <td className="px-6 py-4">{id}</td>
                 <td className="px-6 py-4">{rechargeAmount}</td>
                 <td className="px-6 py-4">{timestamp.toDate().toLocaleString()}</td>
                 <td className="px-6 py-4">{utrNumber}</td>
