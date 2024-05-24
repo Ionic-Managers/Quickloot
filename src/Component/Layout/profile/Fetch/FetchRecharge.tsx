@@ -7,7 +7,7 @@ interface Recharge {
   rechargeAmount: number;
   timestamp: any;
   utrNumber: string;
-  url: string;
+  proofURL: string;
 }
 
 const RechargeTable: React.FC = () => {
@@ -75,7 +75,7 @@ const RechargeTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {recharges.map(({ id, rechargeAmount, timestamp, utrNumber, url }) => (
+            {recharges.map(({ id, rechargeAmount, timestamp, utrNumber, proofURL }) => (
               <tr key={id} className="bg-white border-b hover:bg-gray-50">
                 <td className="px-6 py-4">{id}</td>
                 <td className="px-6 py-4">{rechargeAmount}</td>
@@ -83,10 +83,10 @@ const RechargeTable: React.FC = () => {
                 <td className="px-6 py-4">{utrNumber}</td>
                 <td className="px-6 py-4">
                   <img
-                    src={url}
+                    src={proofURL}
                     alt=""
                     className="h-12 w-12 object-cover cursor-pointer"
-                    onClick={() => handleImageClick(url)}
+                    onClick={() => handleImageClick(proofURL)}
                   />                </td>
                 <td className="px-6 py-4">
                   <button
@@ -100,11 +100,11 @@ const RechargeTable: React.FC = () => {
         </table>
       </div>
       {showImagePopup && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-75">
+        <div className="fixed top-0 w-3/4 h-3/4 flex items-center justify-center bg-black bg-opacity-75">
           <div className="relative max-w-3xl mx-auto">
             <button
               onClick={handleCloseImagePopup}
-              className="absolute top-4 right-4 text-white text-lg focus:outline-none">
+              className="absolute top-4 right-4 text-black text-lg focus:outline-none">
               Close
             </button>
             <img src={selectedImage} alt="" className="max-w-full max-h-full" />
