@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AuthLayout from "./Layout/AuthLayout";
 import Login from "./Auth/Login";
@@ -40,8 +40,109 @@ import PowerBall from "./Component/Pages/Game/Weekly/PowerBall";
 import PowerPlay from "./Component/Pages/Game/Weekly/PowerPlay";
 import SyndicateStar from "./Component/Pages/Game/Weekly/SyndicateStar";
 import TurkeyShoot from "./Component/Pages/Game/Weekly/TurkeyShoot";
+import { doc, deleteDoc, setDoc } from "firebase/firestore";
+import { db } from "./firebase/Firebase";
 
 function App() {
+
+  useEffect(() => {
+    const updateDailyDocuments = async () => {
+      const dailyDocuments = ["Ball Buster", "Bet & Win", "Bet2nite", "Cash Craze", "Cash Splash", "Cash Wave", "GoldRush", "Pockets Rockets", "Price Paradise", "Trick Shots", "Viva Victory"];
+  
+      for (const docName of dailyDocuments) {
+        const docRef = doc(db, "Daily", docName);
+        await deleteDoc(docRef);
+        await setDoc(docRef, {});
+      }
+    };
+  
+    const updateWeeklyDocuments = async () => {
+      const weeklyDocuments = ["Cascade", "Charmstrike", "Knock Knock", "Power Ball", "Power Play", "Syndicate Star", "Turkey Shoot"];
+  
+      for (const docName of weeklyDocuments) {
+        const docRef = doc(db, "Weekly", docName);
+        await deleteDoc(docRef);
+        await setDoc(docRef, {});
+      }
+    };
+  
+    const updateMonthlyDocuments = async () => {
+      const monthlyDocuments = ["Golden Box", "King & Queen", "Lot Set", "Mega Power", "Minted Millions", "Power Swipe", "Rainbow Rise", "Shining Treasure", "Silver Foxes", "Winfinity"];
+  
+      for (const docName of monthlyDocuments) {
+        const docRef = doc(db, "Monthly", docName);
+        await deleteDoc(docRef);
+        await setDoc(docRef, {});
+      }
+    };
+  
+    function calculateMillisecondsUntilNextMonth() {
+      const now = new Date();
+      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 5, 0, 0);
+      const millisecondsUntilNextMonth = nextMonth.getTime() - now.getTime();
+      return millisecondsUntilNextMonth;
+    }
+  
+    const updateDailyAt5AM = () => {
+      const now = new Date();
+      const targetTime = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        5,
+        0,
+        0
+      );
+  
+      let delay = targetTime.getTime() - now.getTime();
+      if (delay < 0) {
+        delay += 24 * 60 * 60 * 1000;
+      }
+  
+      setTimeout(() => {
+        updateDailyDocuments();
+        setInterval(updateDailyAt5AM, 24 * 60 * 60 * 1000);
+      }, delay);
+    };
+  
+    const weeklyUpdateAt5AMOnMonday = () => {
+      const now = new Date();
+      const dayOfWeek = now.getDay();
+      const delay = (dayOfWeek === 1 ? 7 : (8 - dayOfWeek)) * 24 * 60 * 60 * 1000;
+  
+      setTimeout(() => {
+        updateWeeklyDocuments();
+        setInterval(updateWeeklyDocuments, 7 * 24 * 60 * 60 * 1000);
+      }, delay);
+    };
+  
+    const monthlyUpdateAt5AMOnFirstDay = () => {
+      const now = new Date();
+      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 5, 0, 0);
+      let delay = nextMonth.getTime() - now.getTime();
+      if (delay < 0) {
+        const afterNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 1, 5, 0, 0);
+        delay = afterNextMonth.getTime() - now.getTime();
+      }
+  
+      setTimeout(() => {
+        updateMonthlyDocuments();
+        setInterval(updateMonthlyDocuments, calculateMillisecondsUntilNextMonth());
+      }, delay);
+    };
+  
+    updateDailyAt5AM();
+    weeklyUpdateAt5AMOnMonday();
+    monthlyUpdateAt5AMOnFirstDay();
+  
+    return () => {
+      clearInterval(updateDailyAt5AM);
+      clearInterval(updateWeeklyDocuments);
+      clearInterval(updateMonthlyDocuments);
+    };
+  }, []);
+  
+
   return (
     <Router>
       <UserProvider>
@@ -65,16 +166,16 @@ function App() {
           <Route path="/faq" element={<FAQSection />} />
           <Route path="/*" element={<NotFound />} />
 
-          <Route path="Monthly/MintedMillions" element={<MintedMillions/>}/>
-          <Route path="Monthly/PowerSwipe" element={<PowerSwipe/>}/>
-          <Route path="Monthly/King&Queen" element={<KingQueen/>}/>
-          <Route path="Monthly/Winfinity" element={<Winfinity/>}/>
-          <Route path="Monthly/Goldenbox" element={<GoldenBox/>}/>
-          <Route path="Monthly/LotSet" element={<LotSet/>}/>
-          <Route path="Monthly/RainbowRise" element={<RainbowRise/>}/>
-          <Route path="Monthly/ShiningTreasure" element={<ShiningTreasure/>}/>
-          <Route path="Monthly/SilverFoxes" element={<SilverFoxes/>}/>
-          <Route path="Monthly/MegaPower" element={<MegaPower/>}/>
+          <Route path="Monthly/MintedMillions" element={<MintedMillions />} />
+          <Route path="Monthly/PowerSwipe" element={<PowerSwipe />} />
+          <Route path="Monthly/King&Queen" element={<KingQueen />} />
+          <Route path="Monthly/Winfinity" element={<Winfinity />} />
+          <Route path="Monthly/Goldenbox" element={<GoldenBox />} />
+          <Route path="Monthly/LotSet" element={<LotSet />} />
+          <Route path="Monthly/RainbowRise" element={<RainbowRise />} />
+          <Route path="Monthly/ShiningTreasure" element={<ShiningTreasure />} />
+          <Route path="Monthly/SilverFoxes" element={<SilverFoxes />} />
+          <Route path="Monthly/MegaPower" element={<MegaPower />} />
 
           <Route path="Daily/BallBuster" element={<BallBuster />} />
           <Route path="Daily/BetWin" element={<BetWin />} />

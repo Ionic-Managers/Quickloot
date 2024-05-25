@@ -101,12 +101,12 @@ const Recharge: React.FC = () => {
                     ))}
                 </div>
                 {selectedUpiIndex !== null && (
-                    <div className="mb-4">
-                        <div className="flex items-center text-lg text-gray-800 mt-3" onClick={handleCopy}>
+                    <div className="bg-white shadow-md border-2 rounded-lg p-4 mb-4 w-full">
+                        <div className="flex items-center text-lg text-gray-800 mt-3 cursor-pointer" onClick={handleCopy} role="button" aria-label="Copy UPI ID">
                             <span>UPI ID: {qrDetails[selectedUpiIndex].upiId}</span>
-                            <FaRegCopy className="ml-2 cursor-pointer" />
+                            <FaRegCopy className="ml-2" />
                         </div>
-                        <p className="text-md text-gray-600 mb-6">Name: {qrDetails[selectedUpiIndex].name}</p>
+                        <p className="text-md text-gray-600 mt-2">Name: {qrDetails[selectedUpiIndex].name}</p>
                     </div>
                 )}
                 <div className="grid grid-cols-2 gap-4 mb-4 mt-5">
@@ -118,6 +118,13 @@ const Recharge: React.FC = () => {
                             Recharge ₹{amount}
                         </button>
                     ))}
+                </div>
+                <div className="bg-white shadow-md border-2 m-1 mt-2 rounded-lg p-4 max-w-md">
+                    <p className="text-sm text-red-600 mb-4">1. Select a UPI ID, enter the UTR number, choose a recharge amount, and upload the payment proof.</p>
+                    <p className="text-sm text-red-600 mb-4">2. Deposits made 2 hours after the account removal from the site are valid & will be added to their wallets.</p>
+                    <p className="text-sm text-red-600 mb-4">3. The site is not responsible for money deposited to old, inactive, or closed accounts.</p>
+                    <p className="text-sm text-red-600 mb-4">4. After deposit, add your UTR and amount to receive the balance.</p>
+                    <p className="text-sm text-red-600 mb-4">5. In case of account modification: payment valid for 1 hour only.</p>
                 </div>
                 <div className="flex flex-col items-center mt-10">
                     <input
