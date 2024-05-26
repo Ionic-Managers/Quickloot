@@ -20,6 +20,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
   const [userName, setUserName] = useState<firebase.User | null>(null);
   const [balance, setBalance] = useState<number>(0);
   const [user] = useAuthState(auth);
+  const [purchased, setPurchased] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserBalance = async () => {
@@ -58,19 +59,19 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
   const currentDate = new Date().toLocaleDateString();
 
   const downloadTicket = async () => {
-    if(balance >= 1100){
+    if (balance >= 1100) {
       try {
         const ticketElement = ticketRef.current;
         if (!ticketElement) return;
-  
+
         const canvas = await html2canvas(ticketElement);
         const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve));
         if (!blob) return;
-  
+
         const currentTime = new Date().toTimeString().split(' ')[0].replace(/:/g, '-');
         const ticketImageRef = ref(storage, `${userName.uid}/${userName.uid}_${currentTime}.png`);
         await uploadBytes(ticketImageRef, blob);
-  
+
         const buyersListRef = doc(db, "Monthly", "King & Queen");
         const buyersDoc = await getDoc(buyersListRef);
         let newTotal = 1100;
@@ -86,12 +87,12 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
           total: newTotal,
           tickets: firebase.firestore.FieldValue.arrayUnion(ticketCode)
         };
-  
+
         await updateDoc(buyersListRef, updateData);
       } catch (error) {
         console.error("Error handling the download and data update:", error);
       }
-      const newBalance = balance-1100;
+      const newBalance = balance - 1100;
       setBalance(newBalance);
 
       const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
@@ -103,8 +104,9 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
         updatePromises.push(updateDoc(docRef, { balance: newBalance }));
       });
       await Promise.all(updatePromises);
+      setPurchased(true);
     }
-    else{
+    else {
       alert("Please Recharge")
     }
   };
@@ -130,9 +132,15 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
 
       </div>
       <div className="absolute top-72 left-20">
-      <button onClick={downloadTicket} className="bg-yellow-300 hover:bg-yellow-400 text-blue-800 font-bold py-2 px-4 ml-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
-          Buy now
-        </button>
+        {purchased ? ( // If ticket is purchased
+          <button className="bg-gray-400 text-white font-bold py-2 px-4 ml-6 rounded-lg shadow-lg" disabled>
+            Purchased
+          </button>
+        ) : ( // If ticket is not purchased
+          <button onClick={downloadTicket} className="bg-yellow-300 hover:bg-yellow-400 text-blue-800 font-bold py-2 px-4 ml-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
+            Buy now
+          </button>
+        )}
       </div>
     </>
   );

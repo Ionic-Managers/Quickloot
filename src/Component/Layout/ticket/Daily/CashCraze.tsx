@@ -20,6 +20,7 @@ const PowerSwipe: React.FC<PowerSwipeProps> = ({ selectedNumbers, ticketCode }) 
   const [userName, setUserName] = useState<firebase.User | null>(null);
   const [balance, setBalance] = useState<number>(0);
   const [user] = useAuthState(auth);
+  const [purchased, setPurchased] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserBalance = async () => {
@@ -103,7 +104,7 @@ const PowerSwipe: React.FC<PowerSwipeProps> = ({ selectedNumbers, ticketCode }) 
         updatePromises.push(updateDoc(docRef, { balance: newBalance }));
       });
       await Promise.all(updatePromises);
-
+      setPurchased(true);
     }
     else {
       alert("Please Recharge")
@@ -141,9 +142,15 @@ const PowerSwipe: React.FC<PowerSwipeProps> = ({ selectedNumbers, ticketCode }) 
 
       </div>
       <div className="absolute top-72 left-20">
-        <button onClick={downloadTicket} className="bg-yellow-300 hover:bg-yellow-400 text-blue-800 font-bold py-2 px-4 ml-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
-          Buy now
-        </button>
+        {purchased ? ( // If ticket is purchased
+          <button className="bg-gray-400 text-white font-bold py-2 px-4 ml-6 rounded-lg shadow-lg" disabled>
+            Purchased
+          </button>
+        ) : ( // If ticket is not purchased
+          <button onClick={downloadTicket} className="bg-yellow-300 hover:bg-yellow-400 text-blue-800 font-bold py-2 px-4 ml-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
+            Buy now
+          </button>
+        )}
       </div>
     </>
   );
