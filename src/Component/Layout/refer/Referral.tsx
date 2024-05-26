@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../../firebase/Firebase';
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { FaRegCopy } from "react-icons/fa6";
 
 interface ReferralProps {
     userId: string;
@@ -92,7 +93,7 @@ const Referral: React.FC<ReferralProps> = ({ userId }) => {
                 onClick={copyToClipboard}
                 className='w-full cursor-pointer'/>
             <button onClick={copyToClipboard}>
-                {copied ? <span className='text-blue-300'>Copied</span> : 'Copy Link'}
+                {copied ? <span className='text-blue-300'>Copied</span> : <FaRegCopy className="ml-2" />}
             </button>
             {lotteryNames.length > 0 && (
                 <div>

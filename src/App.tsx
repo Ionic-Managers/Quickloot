@@ -78,65 +78,77 @@ function App() {
   
     function calculateMillisecondsUntilNextMonth() {
       const now = new Date();
-      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 5, 0, 0);
+      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 12, 0, 0);
       const millisecondsUntilNextMonth = nextMonth.getTime() - now.getTime();
       return millisecondsUntilNextMonth;
     }
   
-    const updateDailyAt5AM = () => {
+    const updateDailyAt12PM = () => {
       const now = new Date();
       const targetTime = new Date(
         now.getFullYear(),
         now.getMonth(),
         now.getDate(),
-        5,
+        12,
         0,
         0
       );
-  
+    
       let delay = targetTime.getTime() - now.getTime();
       if (delay < 0) {
         delay += 24 * 60 * 60 * 1000;
       }
-  
+    
       setTimeout(() => {
         updateDailyDocuments();
-        setInterval(updateDailyAt5AM, 24 * 60 * 60 * 1000);
+        setInterval(updateDailyAt12PM, 24 * 60 * 60 * 1000);
       }, delay);
     };
-  
-    const weeklyUpdateAt5AMOnMonday = () => {
+    
+    const weeklyUpdateAt12PMOnMonday = () => {
       const now = new Date();
       const dayOfWeek = now.getDay();
-      const delay = (dayOfWeek === 1 ? 7 : (8 - dayOfWeek)) * 24 * 60 * 60 * 1000;
-  
+      const nextMonday = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + ((8 - dayOfWeek) % 7),
+        12,
+        0,
+        0
+      );
+    
+      let delay = nextMonday.getTime() - now.getTime();
+      if (delay < 0) {
+        delay += 7 * 24 * 60 * 60 * 1000;
+      }
+    
       setTimeout(() => {
         updateWeeklyDocuments();
         setInterval(updateWeeklyDocuments, 7 * 24 * 60 * 60 * 1000);
       }, delay);
     };
-  
-    const monthlyUpdateAt5AMOnFirstDay = () => {
+    
+    const monthlyUpdateAt12PMOnFirstDay = () => {
       const now = new Date();
-      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 5, 0, 0);
+      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 12, 0, 0);
       let delay = nextMonth.getTime() - now.getTime();
       if (delay < 0) {
-        const afterNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 1, 5, 0, 0);
+        const afterNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 1, 12, 0, 0);
         delay = afterNextMonth.getTime() - now.getTime();
       }
-  
+    
       setTimeout(() => {
         updateMonthlyDocuments();
         setInterval(updateMonthlyDocuments, calculateMillisecondsUntilNextMonth());
       }, delay);
     };
-  
-    updateDailyAt5AM();
-    weeklyUpdateAt5AMOnMonday();
-    monthlyUpdateAt5AMOnFirstDay();
+         
+    updateDailyAt12PM();
+    weeklyUpdateAt12PMOnMonday();
+    monthlyUpdateAt12PMOnFirstDay();
   
     return () => {
-      clearInterval(updateDailyAt5AM);
+      clearInterval(updateDailyAt12PM);
       clearInterval(updateWeeklyDocuments);
       clearInterval(updateMonthlyDocuments);
     };

@@ -121,7 +121,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
   return (
     <>
       <div className='tref w-[400px] absolute left-0 sm:w-1/2  flex flex-col items-center mt-[60px] ' ref={ticketRef}>
-      <div className='w-full h-[130px]'
+        <div className='w-full h-[130px]'
           style={{
             backgroundImage: `url(${TrickShotsTicket})`,
             backgroundRepeat: "no-repeat",
@@ -131,18 +131,18 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
           <p className="text-[8px] relative top-[108px] text-center left-20">TS{ticketCode}</p>
           <p className="text-[8px] absolute left-[315px] top-6 text-white">TS{ticketCode}</p>
           <p className="text-[10px] text-white mt-[75px] ml-8"><span className="archivo-black-regular">{currentDate}</span> </p>
- 
+
         </div>
         <p className='text-[10px] text-white relative -top-8 left-16 '>{getNextDayDate()}</p>
 
         <div className="flex-col justify-center items-center w-max h-max relative -top-[92px] -right-[140px]">
-            <QRCode value={ticketCode.toString()} size={50} />
-          </div> 
-          
+          <QRCode value={ticketCode.toString()} size={50} />
+        </div>
+
       </div>
       <div className="absolute top-72 left-20">
-        <button onClick={downloadTicket} className="bg-yellow-300 hover:bg-yellow-200 text-blue-800 font-bold py-2 px-2 ml-6 rounded">
-          Download Ticket
+        <button onClick={downloadTicket} className="bg-yellow-300 hover:bg-yellow-400 text-blue-800 font-bold py-2 px-4 ml-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
+          Buy now
         </button>
       </div>
     </>

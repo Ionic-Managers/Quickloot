@@ -47,7 +47,7 @@ const MyTickets: React.FC = () => {
     }
 
     if (userImages.length === 0) {
-      return <div className="text-center">No Tickets</div>;
+      return <div className="text-center">Loading...</div>;
     }
 
     return (
@@ -64,7 +64,7 @@ const MyTickets: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white shadow-md border-2 rounded-lg p-4 mb-4 w-full">
       {renderImages()}
     </div>
   );

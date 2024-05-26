@@ -77,7 +77,7 @@ const MonthlyGame: React.FC = () => {
             position: 'relative'
           }}>
           {isSold && <span className="absolute top-0 right-0 bg-red-500 text-white py-1 px-2 rounded-full text-xs">Sold</span>}
-          Bn{code}
+          BN{code}
         </button>
       );
     });
@@ -107,7 +107,7 @@ const MonthlyGame: React.FC = () => {
             className="generate bg-blue-500 mt-4 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={generateTickets}
             disabled={selectedNumbers.length !== 5}>
-            Generate Ticket Codes
+            Available Tickets
           </button>
         </div>
       </div>

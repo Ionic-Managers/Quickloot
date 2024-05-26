@@ -130,8 +130,8 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
 
       </div>
       <div className="absolute top-72 left-20">
-        <button onClick={downloadTicket} className="bg-yellow-300 hover:bg-opacity-10 text-blue-800 font-bold py-2 px-4 rounded">
-          Download Ticket
+      <button onClick={downloadTicket} className="bg-yellow-300 hover:bg-yellow-400 text-blue-800 font-bold py-2 px-4 ml-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
+          Buy now
         </button>
       </div>
     </>
