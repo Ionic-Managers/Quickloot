@@ -104,7 +104,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
         updatePromises.push(updateDoc(docRef, { balance: newBalance }));
       });
       await Promise.all(updatePromises);
-      setPurchased(true);
     }
     else {
       alert("Please Recharge")

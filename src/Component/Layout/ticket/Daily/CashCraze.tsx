@@ -61,6 +61,7 @@ const PowerSwipe: React.FC<PowerSwipeProps> = ({ selectedNumbers, ticketCode }) 
   const downloadTicket = async () => {
     if (balance >= 89) {
       try {
+        setPurchased(true);
         const ticketElement = ticketRef.current;
         if (!ticketElement) return;
 
@@ -104,7 +105,6 @@ const PowerSwipe: React.FC<PowerSwipeProps> = ({ selectedNumbers, ticketCode }) 
         updatePromises.push(updateDoc(docRef, { balance: newBalance }));
       });
       await Promise.all(updatePromises);
-      setPurchased(true);
     }
     else {
       alert("Please Recharge")

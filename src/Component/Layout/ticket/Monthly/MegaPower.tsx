@@ -63,6 +63,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
   const downloadTicket = async () => {
     if(balance >= 890){
       try {
+        setPurchased(true);
         const ticketElement = ticketRef.current;
         if (!ticketElement) return;
   
@@ -106,7 +107,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
         updatePromises.push(updateDoc(docRef, { balance: newBalance }));
       });
       await Promise.all(updatePromises);
-      setPurchased(true);
     }
     else{
       alert("Please Recharge")
