@@ -87,7 +87,8 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
 
         const updateData = {
           [timestamp.toMillis()]: userName.email,
-          total: newTotal
+          total: newTotal,
+          tickets: firebase.firestore.FieldValue.arrayUnion(ticketCode)
         };
   
         await updateDoc(buyersListRef, updateData);
@@ -117,8 +118,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
 
   return (
     <>
-  
-      
       <div className='tref w-[400px] absolute left-0 sm:w-1/2  flex flex-col items-center mt-[70px]' ref={ticketRef}>
 
         <div className='w-full h-[130px]'
