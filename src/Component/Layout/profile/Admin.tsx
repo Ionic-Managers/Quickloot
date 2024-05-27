@@ -5,6 +5,7 @@ import FetchMonthly from './Fetch/FetchMonthly';
 import FetchWeekly from './Fetch/FetchWeekly';
 import FetchDaily from './Fetch/FetchDaily';
 import ReferralTable from './Fetch/FetchReferrals';
+import FetchTicketBuyers from './Fetch/FetchTicketBuyers'
 import Footer from '../footer/Footer';
 import WithdrawTable from './Fetch/FetchWithdraw';
 import RechargeTable from './Fetch/FetchRecharge';
@@ -222,6 +223,9 @@ function AdminForm() {
         </div>
         <div className='my-5'>
           <FetchDaily />
+        </div>
+        <div className='my-5'>
+          <FetchTicketBuyers />
         </div>
         <div className='my-5'>
           <ReferralTable />
