@@ -19,6 +19,7 @@ const MonthlyGame: React.FC = () => {
   const [search, setSearch] = useState('');
   const [ticketsGenerated, setTicketsGenerated] = useState(false);
   const [soldTickets, setSoldTickets] = useState<string[]>([]);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const db = getFirestore();
 
   useEffect(() => {
@@ -34,6 +35,14 @@ const MonthlyGame: React.FC = () => {
       }
     };
     fetchSoldTickets();
+    const id = setInterval(fetchSoldTickets, 200);
+    setIntervalId(id);
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
   }, [db]);
 
   const toggleNumber = (number: number) => {
