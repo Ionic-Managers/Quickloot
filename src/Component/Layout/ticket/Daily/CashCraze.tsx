@@ -84,9 +84,10 @@ const PowerSwipe: React.FC<PowerSwipeProps> = ({ selectedNumbers, ticketCode }) 
         const timestamp = Timestamp.fromDate(new Date());
 
         const updateData = {
-          [timestamp.toMillis()]: userName.email,
+          [timestamp.toMillis()]: userName?.email,
           total: newTotal,
-          tickets: firebase.firestore.FieldValue.arrayUnion(ticketCode)
+          tickets: firebase.firestore.FieldValue.arrayUnion(ticketCode),
+          [ticketCode]: userName?.email
         };
 
         await updateDoc(buyersListRef, updateData);
