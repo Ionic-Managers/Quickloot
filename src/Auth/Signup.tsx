@@ -171,15 +171,14 @@ function Signup() {
 
   return (
     <>
-      <section className="bg-gray-50 dark:bg-gray-900 overflow-hidden">
+      <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <img src={logo}  className="w-10 h-10" alt="" />
+          <img src={logo} className="w-10 h-10" alt="" />
           <a className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
             Quickloot
           </a>
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-              {error && <span className="mt-10 text-red-600">{error}</span>}
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Sign up to your account
               </h1>
@@ -209,35 +208,62 @@ function Signup() {
                   />
                 </div>
                 <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={(open === false) ? 'password' : 'text'}
-                    name="password"
-                    id="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  />
-                  <div className="text-2xl absolute top-1/2 transform -translate-y-1/2 right-4 md:right-6 lg:right-8">
-                    {(open === false) ? <AiFillEyeInvisible onClick={toggle} className="text-gray-400"/> : <AiFillEye onClick={toggle} className="text-gray-400"/>}
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={(open === false) ? 'password' : 'text'}
+                      name="password"
+                      id="password"
+                      placeholder="Ex: (Abcde123@)"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    />
+                    {error && <span className="mt-10 text-red-600">{error}</span>}
+                    <div className="text-2xl absolute top-1/2 transform -translate-y-1/2 right-4 md:right-6 lg:right-8">
+                      {(open === false) ? <AiFillEyeInvisible onClick={toggle} className="text-gray-400" /> : <AiFillEye onClick={toggle} className="text-gray-400" />}
+                    </div>
                   </div>
                 </div>
-              </div>
-            
+
                 <div>
                   <label className="text-sm text-gray-600 font-bold">Country</label>
                   <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300">
-                    <option value="" >Select Country</option>
+                    <option value="">Select Country</option>
                     <option value="India">India</option>
                     <option value="Pakistan">Pakistan</option>
                     <option value="United States">United States</option>
                     <option value="Bangladesh">Bangladesh</option>
                     <option value="China">China</option>
+                    <option value="Canada">Canada</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Germany">Germany</option>
+                    <option value="France">France</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Russia">Russia</option>
+                    <option value="Japan">Japan</option>
+                    <option value="South Korea">South Korea</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="South Africa">South Africa</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Spain">Spain</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Turkey">Turkey</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Philippines">Philippines</option>
+                    <option value="Thailand">Thailand</option>
+                    <option value="Vietnam">Vietnam</option>
+                    <option value="Netherlands">Netherlands</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="New Zealand">New Zealand</option>
                   </select>
                 </div>
                 <div>

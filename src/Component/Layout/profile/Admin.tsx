@@ -5,7 +5,7 @@ import FetchMonthly from './Fetch/FetchMonthly';
 import FetchWeekly from './Fetch/FetchWeekly';
 import FetchDaily from './Fetch/FetchDaily';
 import ReferralTable from './Fetch/FetchReferrals';
-import FetchTicketBuyers from './Fetch/FetchTicketBuyers'
+import FetchTicketBuyers from './Fetch/FetchTicketBuyers';
 import Footer from '../footer/Footer';
 import WithdrawTable from './Fetch/FetchWithdraw';
 import RechargeTable from './Fetch/FetchRecharge';
@@ -29,6 +29,7 @@ function AdminForm() {
   const userCollection = collection(db, 'users');
   const [editUserId, setEditUserId] = useState(null);
   const [newBalance, setNewBalance] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,6 +76,14 @@ function AdminForm() {
     fetchUsers();
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredUsers = users.filter(user =>
+    user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const [currentDailyGame, setCurrentDailyGame] = useState('Ball buster');
   const [currentWeeklyGame, setCurrentWeeklyGame] = useState('Cascade');
   const [currentMonthlyGame, setCurrentMonthlyGame] = useState('Golden box');
@@ -111,6 +120,16 @@ function AdminForm() {
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-center text-gray-800 my-6">Quickloot Administration Panel</h1>
 
+        <div className="flex justify-end my-4">
+          <input
+            type="text"
+            placeholder="Search by email"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="border rounded p-2"
+          />
+        </div>
+
         <div className="bg-white rounded-lg shadow overflow-auto mx-auto max-w-2xl">
           <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -146,7 +165,7 @@ function AdminForm() {
                 </tr>
               </thead>
               <tbody>
-                {users.map(user => (
+                {filteredUsers.map(user => (
                   <tr key={user.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td className="py-4 px-6">
                       {user.name}
