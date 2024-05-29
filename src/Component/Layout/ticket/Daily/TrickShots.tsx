@@ -122,24 +122,23 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
 
   return (
     <>
-      <div className='tref w-[400px] absolute left-0 sm:w-1/2  flex flex-col items-center mt-[60px] ' ref={ticketRef}>
-        <div className='w-full h-[130px]'
+      <div className='tref w-[400px] absolute left-0 sm:ml-72 sm:w-[950px]  sm:-mt-1 flex flex-col items-center mt-[70px]' ref={ticketRef}>
+        <div className='w-full h-[130px] sm:h-[310px]'
           style={{
             backgroundImage: `url(${TrickShotsTicket})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}>
-          <p className="text-[7px] font-black relative top-[119px] left-20">{selectedNumbers.join(' , ')}</p>
-          <p className="text-[8px] relative top-[108px] text-center left-20">TS{ticketCode}</p>
-          <p className="text-[8px] absolute left-[315px] top-6 text-white">TS{ticketCode}</p>
-          <p className="text-[10px] text-white mt-[75px] ml-8"><span className="archivo-black-regular">{currentDate}</span> </p>
+         <p className="text-[7px] font-black relative top-[119px] left-20 sm:text-xl sm:relative sm:top-[280px] sm:left-48">{selectedNumbers.join(' , ')}</p>
+          <p className="text-[8px] relative top-[107px] text-center left-20 sm:text-lg sm:relative sm:top-[252px] sm:left-[148px] sm:font-bold ">TS{ticketCode}</p>
+          <p className="text-[8px] absolute left-[317px] top-6  text-white sm:text-lg sm:relative sm:top-1 sm:left-[770px]">TS{ticketCode}</p>
+          <p className="text-[10px] text-white mt-[75px] ml-8 sm:text-lg sm:relative sm:top-[70px] sm:left-[50px]"><span className="archivo-black-regular">{currentDate}</span> </p>
 
         </div>
-        <p className='text-[10px] text-white relative -top-8 left-16 '>{getNextDayDate()}</p>
-
-        <div className="flex-col justify-center items-center w-max h-max relative -top-[92px] -right-[140px]">
-          <QRCode value={ticketCode.toString()} size={50} />
-        </div>
+        <p className='text-[10px] text-white relative -top-8 left-16 sm:text-lg sm:relative sm:-top-[75px] sm:left-[150px]'>{getNextDayDate()}</p>
+        <div className="flex-col justify-center items-center w-max h-max relative -top-[92px] sm:relative sm:left-[335px] sm:-top-[218px] -right-[140px]">
+            <QRCode className='sm:w-52 sm:h-52' value={ticketCode.toString()} />
+          </div>
 
       </div>
       <div className="absolute top-72 left-20">
