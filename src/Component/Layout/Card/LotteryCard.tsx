@@ -113,14 +113,14 @@ const LotteryCard: React.FC = () => {
   return (
     <div className="cardCon mt-20 md:overflow-x-hidden sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40 2xl:mt-48 w-full sm:w-full md:w-full lg:w-full mx-auto px-4 sm:px-0 flex flex-col gap-5 justify-center items-center">
       <h3 className="text-2xl font-extrabold m-5 text-center">Monthly Offers</h3>
-      <div className="m-5 flex flex-wrap justify-center gap-5 md:w-full md:flex md:flex-wrap md:gap-4">
+      <div className="m-5 flex flex-wrap justify-center gap-5 sm:w-full sm:flex sm:flex-wrap sm:gap-4  md:w-full md:flex md:flex-wrap md:gap-4">
         {lotteryData.monthly.map((offer: LotteryData, index: number) => {
           const fullName = offer.name;
           const [firstName, lastName] = fullName.split(' ');
 
           return (
-            <div key={index} className="box rounded-lg p-4 mb-1 w-[280px] sm:w-[300px] lg:w-[400px] xl:w-[600px] 2xl:w-[700px] h-[200px] shadow-xl transform hover:scale-105">
-              <div className='belt bg-gradient-to-b h-12 from-slate-100 to-slate-300 w-[280px] sm:w-[300px] md:w-[400px] -ml-4 -mt-4 '>
+            <div key={index} className="box rounded-lg p-4 mb-1 w-[280px] sm:w-[400px] lg:w-[400px] xl:w-[600px] 2xl:w-[700px] h-[200px] shadow-xl transform hover:scale-105">
+              <div className='belt bg-gradient-to-b h-12 from-slate-100 to-slate-300 w-[280px] sm:w-[400px] md:w-[400px] -ml-4 -mt-4 '>
                 <h4 className="text-lg alfa text-blue-800 p-2" style={{ fontFamily: "'Font1', 'Font2', sans-serif", fontWeight: 'bold' }}>
                   <span className='text-xl' style={{ color: "blue" }}>{firstName}</span>{" "}
                   <span className='text-xl' style={{ fontFamily: "'Font2', sans-serif", color: "red" }}>{lastName}</span>
@@ -150,13 +150,13 @@ const LotteryCard: React.FC = () => {
       </div>
 
       <h3 className="text-2xl font-extrabold m-5 text-center">Weekly Offers</h3>
-      <div className="m-5 flex flex-wrap justify-center gap-5">
+      <div className="m-5 flex flex-wrap justify-center gap-5 sm:w-full sm:flex sm:flex-wrap sm:gap-4 ">
         {lotteryData.weekly.map((offer: LotteryData, index: number) => {
           const fullName = offer.name;
           const [firstName, lastName] = fullName.split(' ');
 
           return (
-            <div key={index} className="box rounded-lg p-4 mb-1 w-[280px] sm:w-[300px] lg:w-[400px] xl:w-[600px] 2xl:w-[700px] h-[200px] shadow-xl transform hover:scale-105">
+            <div key={index} className="box rounded-lg p-4 mb-1 w-[280px] sm:w-[400px] lg:w-[400px] xl:w-[600px] 2xl:w-[700px] h-[200px] shadow-xl transform hover:scale-105">
               <div className='belt bg-gradient-to-b h-12 from-slate-100 to-slate-300 w-[280px] sm:w-[400px] md:w-[400px] -ml-4 -mt-4 '>
                 <h4 className="text-lg alfa text-blue-800 p-2" style={{ fontFamily: "'Font1', 'Font2', sans-serif", fontWeight: 'bold' }}>
                   <span className='text-xl' style={{ color: "rgb(252, 103, 54)" }}>{firstName}</span>{" "}
@@ -187,7 +187,7 @@ const LotteryCard: React.FC = () => {
       </div>
 
       <h3 className="text-2xl font-extrabold m-5 text-center">Daily Offers</h3>
-      <div className="m-5 pb-48 flex flex-wrap justify-center gap-5">
+      <div className="m-5 pb-48 flex flex-wrap justify-center gap-5 sm:w-full sm:flex sm:flex-wrap sm:gap-4 ">
         {lotteryData.daily.map((offer: LotteryData, index: number) => {
           const fullName = offer.name;
           const nameParts = fullName.trim().split(' ');
@@ -196,8 +196,8 @@ const LotteryCard: React.FC = () => {
           const middleName = nameParts.slice(1, -1).join(' ');
 
           return (
-            <div key={index} className="box rounded-lg p-4 mb-1 w-[280px] sm:w-[300px] lg:w-[400px] xl:w-[600px] 2xl:w-[700px] h-[200px] shadow-xl transform hover:scale-105">
-              <div className='belt bg-gradient-to-b h-12 from-slate-100 to-slate-300 w-[280px] sm:w-[300px] md:w-[400px] -ml-4 -mt-4 '>
+            <div key={index} className="box rounded-lg p-4 mb-1 w-[280px] sm:w-[400px] lg:w-[400px] xl:w-[600px] 2xl:w-[700px] h-[200px] shadow-xl transform hover:scale-105">
+              <div className='belt bg-gradient-to-b h-12 from-slate-100 to-slate-300 w-[280px] sm:w-[400px] md:w-[400px] -ml-4 -mt-4 '>
                 <h4 className="text-lg alfa text-blue-800 p-2" style={{ fontFamily: "'Font1', 'Font2', sans-serif", fontWeight: 'bold' }}>
                   <span className='text-xl' style={{ color: "rgb(28, 22, 120)" }}>{firstName}</span>{" "}
                   <span className='text-xl' style={{ color: "rgb(252, 103, 54)" }}>{middleName}</span>{" "}
