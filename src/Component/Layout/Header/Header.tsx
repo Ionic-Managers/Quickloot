@@ -126,7 +126,7 @@ const Header = () => {
             <div className="fixed inset-x-0 bottom-0 z-50 bg-white dark:bg-gray-800 shadow-xl">
               <div className="p-4">
                 {tabs.map((tab) => (
-                  <div key={tab.name} className="mb-4">
+                  <div key={tab.name} className="flex flex-row mb-4">
                     <Link
                       to={tab.href}
                       className="block py-2 font-medium text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300"

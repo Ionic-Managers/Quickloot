@@ -57,7 +57,7 @@ function TicketData() {
   }, []);
 
   return (
-    <div className="flex flex-wrap justify-around gap-8">
+    <div className="flex flex-col justify-around gap-8">
       <div className="w-full sm:w-1/2 md:w-1/3">
         <h2 className="text-lg font-bold mb-4">Monthly</h2>
         <table className="w-full border-collapse">
@@ -81,28 +81,6 @@ function TicketData() {
       </div>
 
       <div className="w-full sm:w-1/2 md:w-1/3">
-        <h2 className="text-lg font-bold mb-4">Daily</h2>
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="py-2 px-4 border">Document</th>
-              <th className="py-2 px-4 border">Ticket</th>
-              <th className="py-2 px-4 border">Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dailyData.map((item, index) => (
-              <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
-                <td className="py-2 px-4 border">{item.docName}</td>
-                <td className="py-2 px-4 border">{item.ticket}</td>
-                <td className="py-2 px-4 border">{item.email}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="w-full sm:w-1/2 md:w-1/3">
         <h2 className="text-lg font-bold mb-4">Weekly</h2>
         <table className="w-full border-collapse">
           <thead>
@@ -114,6 +92,28 @@ function TicketData() {
           </thead>
           <tbody>
             {weeklyData.map((item, index) => (
+              <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
+                <td className="py-2 px-4 border">{item.docName}</td>
+                <td className="py-2 px-4 border">{item.ticket}</td>
+                <td className="py-2 px-4 border">{item.email}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="w-full sm:w-1/2 md:w-1/3">
+        <h2 className="text-lg font-bold mb-4">Daily</h2>
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="py-2 px-4 border">Document</th>
+              <th className="py-2 px-4 border">Ticket</th>
+              <th className="py-2 px-4 border">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dailyData.map((item, index) => (
               <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
                 <td className="py-2 px-4 border">{item.docName}</td>
                 <td className="py-2 px-4 border">{item.ticket}</td>
