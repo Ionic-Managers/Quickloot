@@ -10,6 +10,7 @@ import bg from '../../../assets/gambling.jpeg';
 export default function Landing() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleLoginClick = (event) => {
     event.preventDefault();
@@ -17,6 +18,10 @@ export default function Landing() {
     if (!user) {
       navigate('/login');
     }
+  };
+
+  const handleLearnMoreClick = () => {
+    setShowModal(true);
   };
 
   const navigation = [
@@ -111,24 +116,23 @@ export default function Landing() {
         </Dialog>
       </header>
 
-      <div
-        className="relative isolate px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl relative top-12 py-32 sm:py-48 lg:py-64 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-            Welcome to Quickloot
+      <div className="relative isolate px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl relative top-6 py-32 sm:py-32 lg:py-48 text-center">
+          <h1 className="text-2xl md:text-4xl font-bold font-mono tracking-tight text-white sm:text-6xl">
+            Discover the Thrill of Winning with Quickloot!
           </h1>
-          <p className="mt-6 text-md font-medium md:text-lg lg:text-xl leading-8 text-white">
-            Discover the excitement of winning with Quickloot! Our platform offers an unparalleled experience in online lotteries. With state-of-the-art technology and user-friendly design, Quickloot provides a seamless and secure environment for players to participate in lotteries from anywhere in the world.
-          </p>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
+          <p className="mt-10 text-md font-serif md:text-lg lg:text-xl leading-8 text-white">
+            Welcome to Quickloot, where the excitement never ends! Our platform delivers an unmatched experience in online lotteries, offering a world of thrilling possibilities to our players. With cutting-edge technology and a user-friendly design, Quickloot creates a seamless and secure environment for lottery enthusiasts from across the globe.          </p>
+          <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-x-6">
             <a
               onClick={handleLoginClick}
-              className="cursor-pointer bg-white/70 rounded-full px-5 py-3 text-sm font-bold text-blue-950 shadow-md backdrop-blur border border-white/30 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              className="cursor-pointer bg-white/70 rounded-full px-8 py-4 text-lg font-bold text-blue-950 shadow-md backdrop-blur border border-white/30 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
               Start Playing
             </a>
             <a
               href="#"
-              className="text-sm font-semibold leading-6 text-white">
+              onClick={handleLearnMoreClick}
+              className="text-sm font-semibold leading-6 text-white mt-4 md:mt-0">
               Learn More →
             </a>
           </div>
@@ -137,21 +141,21 @@ export default function Landing() {
               <h1 className="text-lg font-bold text-black mb-2">Total Users</h1>
               <div className="flex flex-row gap-3 mt-1">
                 <UsersIcon className="h-6 w-6 text-black  relative left-12" aria-hidden="true" />
-                <p className="text-black ml-12">50,000+ Users</p>
+                <p className="text-black ml-12">90,000,000+ Users</p>
               </div>
             </div>
             <div className="w-full md:w-1/3 bg-white/60 p-6 rounded-lg shadow-md border border-white/30 backdrop-blur">
               <h1 className="text-lg font-bold text-black mb-2">Total Winners</h1>
               <div className="flex flex-row gap-3 mt-1">
                 <GiTrophy className="h-6 w-6 text-black  relative left-12" aria-hidden="true" />
-                <p className="text-black ml-12">10,000+ Winners</p>
+                <p className="text-black ml-12">8,00,000+ Winners</p>
               </div>
             </div>
             <div className="w-full md:w-1/3 bg-white/60 p-6 rounded-lg shadow-md border border-white/30 backdrop-blur">
               <h1 className="text-lg font-bold text-black mb-2">Total Visitors</h1>
               <div className="flex flex-row gap-3 mt-1">
                 <EyeIcon className="h-6 w-6 text-black relative left-12" aria-hidden="true" />
-                <p className="text-black ml-12">1 Million+ Visitors</p>
+                <p className="text-black ml-12">120,000,000+ Visitors</p>
               </div>
             </div>
           </div>
@@ -160,6 +164,33 @@ export default function Landing() {
       <div>
         <Footer />
       </div>
+      {showModal && (
+        <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl font-bold font-mono tracking-tight text-black sm:text-5xl mb-6">
+              Why Choose Quickloot?
+            </h1>
+            <p className="text-lg leading-relaxed mb-4 text-left">
+              <strong>1. Unrivaled Experience:</strong> Immerse yourself in a world of excitement and anticipation as you participate in our diverse range of lotteries. From classic draws to innovative games, Quickloot offers something for everyone.
+            </p>
+            <p className="text-lg leading-relaxed mb-4 text-left">
+              <strong>2. State-of-the-Art Technology:</strong> Our advanced platform leverages the latest technology to ensure a smooth and hassle-free lottery experience. Whether you're accessing Quickloot from your desktop or mobile device, you can count on seamless performance every time.
+            </p>
+            <p className="text-lg leading-relaxed mb-4 text-left">
+              <strong>3. User-Friendly Design:</strong> Navigating Quickloot is a breeze thanks to our intuitive design. Find your favorite lotteries, check results, and manage your tickets with ease, all within a sleek and modern interface.
+            </p>
+            <p className="text-lg leading-relaxed mb-6 text-left">
+              <strong>4. Secure Environment:</strong> At Quickloot, security is our top priority. We employ robust measures to safeguard your personal information and transactions, providing you with peace of mind as you play.
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold font-mono tracking-tight text-black sm:text-4xl mb-6">
+              Join Quickloot Today!
+            </h2>
+            <p className="text-lg leading-relaxed text-left">
+              Don't miss out on the excitement – join Quickloot today and start your journey to big wins! Whether you're a seasoned player or new to the world of lotteries, there's never been a better time to get started. Sign up now and discover why Quickloot is the ultimate destination for lottery enthusiasts worldwide.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
