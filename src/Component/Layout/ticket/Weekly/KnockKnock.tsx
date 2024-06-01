@@ -137,7 +137,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
         </div>
         <p className='text-[10px] text-white relative -top-8 left-16 sm:text-lg sm:relative sm:-top-[75px] sm:left-[150px]'>{getNextWeekDate()}</p>
         <div className="flex-col justify-center items-center w-max h-max relative -top-[92px] sm:relative sm:left-[335px] sm:-top-[218px] -right-[140px]">
-            <QRCode className='sm:w-52 sm:h-52' value={ticketCode.toString()} />
+            <QRCode className='relative -top-1 -left-1 sm:relative sm:top-[35px]' value={ticketCode.toString()} size={60} />
           </div>
 
       </div>
