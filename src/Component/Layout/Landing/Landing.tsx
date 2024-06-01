@@ -143,22 +143,22 @@ export default function Landing() {
             <div className="w-full md:w-1/3 bg-white/60 p-6 rounded-lg shadow-md border border-white/30 backdrop-blur">
               <h1 className="text-lg font-bold text-black mb-2">Total Users</h1>
               <div className="flex flex-row gap-3 mt-1">
-                <UsersIcon className="h-6 w-6 text-black  relative left-12" aria-hidden="true" />
-                <p className="text-black ml-12">90,000,000+ Users</p>
+                <UsersIcon className="h-6 w-6 text-black  relative left-12 sm:-left-3" aria-hidden="true" />
+                <p className="text-black ml-12 sm:-ml-4">90,000,000+ Users</p>
               </div>
             </div>
             <div className="w-full md:w-1/3 bg-white/60 p-6 rounded-lg shadow-md border border-white/30 backdrop-blur">
               <h1 className="text-lg font-bold text-black mb-2">Total Winners</h1>
               <div className="flex flex-row gap-3 mt-1">
-                <GiTrophy className="h-6 w-6 text-black  relative left-12" aria-hidden="true" />
-                <p className="text-black ml-12">8,00,000+ Winners</p>
+                <GiTrophy className="h-6 w-6 text-black  relative left-12 sm:-left-2" aria-hidden="true" />
+                <p className="text-black ml-12 sm:-ml-4">8,00,000+ Winners</p>
               </div>
             </div>
             <div className="w-full md:w-1/3 bg-white/60 p-6 rounded-lg shadow-md border border-white/30 backdrop-blur">
               <h1 className="text-lg font-bold text-black mb-2">Total Visitors</h1>
               <div className="flex flex-row gap-3 mt-1">
-                <EyeIcon className="h-6 w-6 text-black relative left-12" aria-hidden="true" />
-                <p className="text-black ml-12">120,000,000+ Visitors</p>
+                <EyeIcon className="h-6 w-6 text-black relative left-12 sm:-left-4 " aria-hidden="true" />
+                <p className="text-black ml-12 sm:-ml-7">120,000,000+ Visitors</p>
               </div>
             </div>
           </div>
