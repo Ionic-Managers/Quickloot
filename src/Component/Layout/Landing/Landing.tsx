@@ -6,6 +6,9 @@ import logo from "../../../assets/logo.ico";
 import Footer from "../footer/Footer";
 import { GiTrophy } from "react-icons/gi";
 import bg from '../../../assets/gambling.jpeg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -165,8 +168,16 @@ export default function Landing() {
         <Footer />
       </div>
       {showModal && (
-        <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+        <div className="lg:w-[1600px] flex justify-center ">
+        <div className="absolute top-28 bg-gray-800 bg-opacity-75 flex items-center justify-center">
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto text-center">
+          <button 
+          className="absolute top-4 right-4 text-black"
+          onClick={() => setShowModal(false)}
+        >
+          <FontAwesomeIcon icon={faTimes} size="2x" />
+        </button>
+            
             <h1 className="text-3xl md:text-4xl font-bold font-mono tracking-tight text-black sm:text-5xl mb-6">
               Why Choose Quickloot?
             </h1>
@@ -189,6 +200,7 @@ export default function Landing() {
               Don't miss out on the excitement – join Quickloot today and start your journey to big wins! Whether you're a seasoned player or new to the world of lotteries, there's never been a better time to get started. Sign up now and discover why Quickloot is the ultimate destination for lottery enthusiasts worldwide.
             </p>
           </div>
+        </div>
         </div>
       )}
     </div>
