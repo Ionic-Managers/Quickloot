@@ -1,20 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Link } from "react-router-dom";
-import {
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import {
-  PlayCircleIcon,
-  ChartPieIcon,
-  SquaresPlusIcon,
-  FingerPrintIcon,
-  ArrowPathIcon,
-  PhoneIcon,
-} from "@heroicons/react/20/solid";
+import { Link, useNavigate } from "react-router-dom";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { PlayCircleIcon, ChartPieIcon, SquaresPlusIcon, FingerPrintIcon, ArrowPathIcon, PhoneIcon } from "@heroicons/react/20/solid";
 import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.ico";
 import Wallet from "../../Pages/Wallet/Wallet";
 import { auth } from '../../../firebase/Firebase';
@@ -72,7 +61,7 @@ const Header = () => {
             <img src={logo} alt="Lottery Logo" className="h-8 w-auto" />
           </div>
           <div className="hidden lg:flex space-x-10 ml-10 sm:w-20">
-            <Wallet/>
+            <Wallet />
             {tabs.map((tab) => (
               <Link key={tab.name} to={tab.href} className="text-gray-600 hover:text-gray-900 dark:hover:text-white text-sm font-medium">
                 {tab.name}
@@ -84,7 +73,7 @@ const Header = () => {
               type="button"
               className="-m-2.5 p-2.5 rounded-md text-gray-700 dark:text-gray-200"
               onClick={toggleMobileMenu}>
-              {mobileMenuOpen ? <div className="cursor-pointer"><XMarkIcon className="h-6 w-6" aria-hidden="true" /></div> : <Bars3Icon className="h-6 w-6" aria-hidden="true" />}
+              {mobileMenuOpen ? <XMarkIcon className="h-6 w-6" aria-hidden="true" /> : <Bars3Icon className="h-6 w-6" aria-hidden="true" />}
             </button>
           </div>
           <div className="hidden lg:flex items-center">
@@ -99,8 +88,8 @@ const Header = () => {
               Log out
             </button>
           </div>
-          </div>
-        </nav>
+        </div>
+      </nav>
 
       {/* Mobile menu */}
       <Transition show={mobileMenuOpen} as={Fragment}>
@@ -135,7 +124,7 @@ const Header = () => {
                     </Link>
                   </div>
                 ))}
-                <Wallet/>
+                <Wallet />
                 {callsToAction.map((action) => (
                   <Link
                     key={action.name}
@@ -145,13 +134,13 @@ const Header = () => {
                     {action.name}
                   </Link>
                 ))}
-              <button
+                <button
                   onClick={() => { handleLogOut(); toggleMobileMenu(); }}
                   className="w-full mt-4 text-center py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700">
                   Log out
-              </button>
+                </button>
+              </div>
             </div>
-                </div>
           </Transition.Child>
         </Dialog>
       </Transition>

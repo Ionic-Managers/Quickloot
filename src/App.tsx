@@ -153,7 +153,6 @@ function App() {
       clearInterval(updateMonthlyDocuments);
     };
   }, []);
-  
 
   return (
     <Router>

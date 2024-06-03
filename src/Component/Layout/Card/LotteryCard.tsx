@@ -77,30 +77,36 @@ const LotteryCard: React.FC = () => {
   useEffect(() => {
     const updateTimers = () => {
       const now = new Date();
+      
       const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+      nextMonth.setHours(12, 0, 0, 0);
+      
       const nextWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() + (7 - now.getDay()));
-      const nextDay = new Date(new Date().setDate(new Date().getDate() + 1));
-
+      nextWeek.setHours(12, 0, 0, 0);
+      
+      const nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      nextDay.setHours(12, 0, 0, 0);
+  
       const calculateTime = (date: Date) => {
         const diff = date.getTime() - now.getTime();
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+  
         return `${days}d : ${hours}h : ${minutes}m : ${seconds}s`;
       };
-
+  
       setMonthlyTime(calculateTime(nextMonth));
       setWeeklyTime(calculateTime(nextWeek));
       setDailyTime(calculateTime(nextDay));
     };
-
+  
     updateTimers();
     const intervalId = setInterval(updateTimers, 1000);
-
+  
     return () => clearInterval(intervalId);
-  }, []);
+  }, []);    
 
   if (isLoading) {
     return (
