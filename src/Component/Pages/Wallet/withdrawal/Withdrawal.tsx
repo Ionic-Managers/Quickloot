@@ -3,7 +3,7 @@ import Header from '../../../Layout/Header/Header';
 import Footer from '../../../Layout/footer/Footer';
 import { db, auth } from '../../../../firebase/Firebase';
 import { doc, setDoc } from 'firebase/firestore';
-import img from "../../../../../public/withdraw.png"
+import img from "../../../../../src/assets/withdraw.png"
 
 const Withdrawal: React.FC = () => {
     const [amount, setAmount] = useState('');

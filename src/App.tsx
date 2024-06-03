@@ -1,5 +1,9 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, deleteDoc, setDoc } from "firebase/firestore";
+import { db } from "./firebase/Firebase";
+import { UserProvider } from './context/UserContext';
 import AuthLayout from "./Layout/AuthLayout";
 import Login from "./Auth/Login";
 import Signup from "./Auth/Signup";
@@ -11,7 +15,6 @@ import AdminForm from "./Component/Layout/profile/Admin";
 import Recharge from "./Component/Pages/Wallet/Recharge/Recharge";
 import Withdrawal from "./Component/Pages/Wallet/withdrawal/Withdrawal";
 import FAQSection from "./Component/Layout/FAQ/FAQsection";
-import { UserProvider } from './context/UserContext';
 import MintedMillions from "./Component/Pages/Game/Monthly/MintedMillions";
 import PowerSwipe from "./Component/Pages/Game/Monthly/PowerSwipe";
 import KingQueen from "./Component/Pages/Game/Monthly/King&Queen";
@@ -40,10 +43,9 @@ import PowerBall from "./Component/Pages/Game/Weekly/PowerBall";
 import PowerPlay from "./Component/Pages/Game/Weekly/PowerPlay";
 import SyndicateStar from "./Component/Pages/Game/Weekly/SyndicateStar";
 import TurkeyShoot from "./Component/Pages/Game/Weekly/TurkeyShoot";
-import { doc, deleteDoc, setDoc } from "firebase/firestore";
-import { db } from "./firebase/Firebase";
 
 function App() {
+  const auth = getAuth();
 
   useEffect(() => {
     const updateDailyDocuments = async () => {
@@ -55,7 +57,7 @@ function App() {
         await setDoc(docRef, {});
       }
     };
-  
+
     const updateWeeklyDocuments = async () => {
       const weeklyDocuments = ["Cascade", "Charmstrike", "Knock Knock", "Power Ball", "Power Play", "Syndicate Star", "Turkey Shoot"];
   
@@ -65,7 +67,7 @@ function App() {
         await setDoc(docRef, {});
       }
     };
-  
+
     const updateMonthlyDocuments = async () => {
       const monthlyDocuments = ["Golden Box", "King & Queen", "Lot Set", "Mega Power", "Minted Millions", "Power Swipe", "Rainbow Rise", "Shining Treasure", "Silver Foxes", "Winfinity"];
   
@@ -75,24 +77,17 @@ function App() {
         await setDoc(docRef, {});
       }
     };
-  
-    function calculateMillisecondsUntilNextMonth() {
+
+    const calculateMillisecondsUntilNextMonth = () => {
       const now = new Date();
       const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 12, 0, 0);
       const millisecondsUntilNextMonth = nextMonth.getTime() - now.getTime();
       return millisecondsUntilNextMonth;
-    }
-  
+    };
+
     const updateDailyAt12PM = () => {
       const now = new Date();
-      const targetTime = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        12,
-        0,
-        0
-      );
+      const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0);
     
       let delay = targetTime.getTime() - now.getTime();
       if (delay < 0) {
@@ -101,21 +96,14 @@ function App() {
     
       setTimeout(() => {
         updateDailyDocuments();
-        setInterval(updateDailyAt12PM, 24 * 60 * 60 * 1000);
+        setInterval(updateDailyDocuments, 24 * 60 * 60 * 1000);
       }, delay);
     };
     
     const weeklyUpdateAt12PMOnMonday = () => {
       const now = new Date();
       const dayOfWeek = now.getDay();
-      const nextMonday = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() + ((8 - dayOfWeek) % 7),
-        12,
-        0,
-        0
-      );
+      const nextMonday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + ((8 - dayOfWeek) % 7), 12, 0, 0);
     
       let delay = nextMonday.getTime() - now.getTime();
       if (delay < 0) {
@@ -128,37 +116,36 @@ function App() {
       }, delay);
     };
     
-    const monthlyUpdateAt12PMOnFirstDay = () => {
-      const now = new Date();
-      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 12, 0, 0);
-      let delay = nextMonth.getTime() - now.getTime();
-      if (delay < 0) {
-        const afterNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 1, 12, 0, 0);
-        delay = afterNextMonth.getTime() - now.getTime();
-      }
+    // const monthlyUpdateAt12PMOnFirstDay = () => {
+    //   const now = new Date();
+    //   const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 12, 0, 0);
+    //   let delay = nextMonth.getTime() - now.getTime();
+    //   if (delay < 0) {
+    //     const afterNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 1, 12, 0, 0);
+    //     delay = afterNextMonth.getTime() - now.getTime();
+    //   }
     
-      setTimeout(() => {
-        updateMonthlyDocuments();
-        setInterval(updateMonthlyDocuments, calculateMillisecondsUntilNextMonth());
-      }, delay);
-    };
-         
-    updateDailyAt12PM();
-    weeklyUpdateAt12PMOnMonday();
-    monthlyUpdateAt12PMOnFirstDay();
-  
-    return () => {
-      clearInterval(updateDailyAt12PM);
-      clearInterval(updateWeeklyDocuments);
-      clearInterval(updateMonthlyDocuments);
-    };
-  }, []);
+    //   setTimeout(() => {
+    //     updateMonthlyDocuments();
+    //     setInterval(updateMonthlyDocuments, calculateMillisecondsUntilNextMonth());
+    //   }, delay);
+    // };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        updateDailyAt12PM();
+        weeklyUpdateAt12PMOnMonday();
+        // monthlyUpdateAt12PMOnFirstDay();
+      } else {
+        console.log("User is not authenticated");
+      }
+    });
+  }, [auth]);
 
   return (
     <Router>
       <UserProvider>
         <Routes>
-
           <Route path="/" element={<AuthLayout />} />
           <Route path="/">
             <Route path="/signup/:referCode" element={<Signup />} />
@@ -207,7 +194,6 @@ function App() {
           <Route path="Weekly/PowerPlay" element={<PowerPlay />} />
           <Route path="Weekly/SyndicateStar" element={<SyndicateStar />} />
           <Route path="Weekly/TurkeyShoot" element={<TurkeyShoot />} />
-
         </Routes>
       </UserProvider>
     </Router>
