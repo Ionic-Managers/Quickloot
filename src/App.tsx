@@ -68,23 +68,6 @@ function App() {
       }
     };
 
-    const updateMonthlyDocuments = async () => {
-      const monthlyDocuments = ["Golden Box", "King & Queen", "Lot Set", "Mega Power", "Minted Millions", "Power Swipe", "Rainbow Rise", "Shining Treasure", "Silver Foxes", "Winfinity"];
-  
-      for (const docName of monthlyDocuments) {
-        const docRef = doc(db, "Monthly", docName);
-        await deleteDoc(docRef);
-        await setDoc(docRef, {});
-      }
-    };
-
-    const calculateMillisecondsUntilNextMonth = () => {
-      const now = new Date();
-      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 12, 0, 0);
-      const millisecondsUntilNextMonth = nextMonth.getTime() - now.getTime();
-      return millisecondsUntilNextMonth;
-    };
-
     const updateDailyAt12PM = () => {
       const now = new Date();
       const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0);
@@ -115,29 +98,11 @@ function App() {
         setInterval(updateWeeklyDocuments, 7 * 24 * 60 * 60 * 1000);
       }, delay);
     };
-    
-    // const monthlyUpdateAt12PMOnFirstDay = () => {
-    //   const now = new Date();
-    //   const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 12, 0, 0);
-    //   let delay = nextMonth.getTime() - now.getTime();
-    //   if (delay < 0) {
-    //     const afterNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 1, 12, 0, 0);
-    //     delay = afterNextMonth.getTime() - now.getTime();
-    //   }
-    
-    //   setTimeout(() => {
-    //     updateMonthlyDocuments();
-    //     setInterval(updateMonthlyDocuments, calculateMillisecondsUntilNextMonth());
-    //   }, delay);
-    // };
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
         updateDailyAt12PM();
         weeklyUpdateAt12PMOnMonday();
-        // monthlyUpdateAt12PMOnFirstDay();
-      } else {
-        console.log("User is not authenticated");
       }
     });
   }, [auth]);

@@ -47,7 +47,7 @@ const Header = () => {
   const handleLogOut = async () => {
     try {
       await signOut(auth);
-      navigate('/login');
+      navigate('/signup');
     } catch (error) {
       console.error("Error signing out:", error);
     }

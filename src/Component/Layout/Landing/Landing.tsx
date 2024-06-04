@@ -19,7 +19,7 @@ export default function Landing() {
     event.preventDefault();
     const user = localStorage.getItem('user');
     if (!user) {
-      navigate('/login');
+      navigate('/signup');
     }
   };
 
