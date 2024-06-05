@@ -56,6 +56,8 @@ function TicketData() {
     fetchData();
   }, []);
 
+  
+
   return (
     <div className="flex flex-col justify-around gap-8">
       <div className="w-full sm:w-1/2 md:w-1/3">

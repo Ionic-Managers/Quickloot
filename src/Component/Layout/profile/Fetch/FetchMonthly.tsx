@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase/Firebase';
 import { format, isToday } from 'date-fns';
 
@@ -60,13 +60,30 @@ const MonthlyTable = () => {
     fetchDocuments();
   }, []);
 
+  const updateMonthlyDocuments = async () => {
+    const monthlyDocuments = ["Golden Box", "King & Queen", "Lot Set", "Mega Power", "Minted Millions", "Power Swipe", "Rainbow Rise", "Shining Treasure", "Silver Foxes", "Winfinity"];
+
+    for (const docName of monthlyDocuments) {
+      const docRef = doc(db, "Monthly", docName);
+      await deleteDoc(docRef);
+      await setDoc(docRef, {});
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (documents.length === 0) return <div>No Tickets sold</div>;
 
   return (
     <div>
-      <h1 className="text-xl font-semibold mb-4">Monthly Tickets Buyers List</h1>
+      <h1 className="text-xl font-semibold mb-4">
+        Monthly Tickets Buyers List
+        <span 
+          onClick={updateMonthlyDocuments} 
+          className="ml-4 px-2 py-1 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600">
+          Refresh
+        </span>
+      </h1>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
