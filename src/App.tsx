@@ -43,6 +43,7 @@ import PowerBall from "./Component/Pages/Game/Weekly/PowerBall";
 import PowerPlay from "./Component/Pages/Game/Weekly/PowerPlay";
 import SyndicateStar from "./Component/Pages/Game/Weekly/SyndicateStar";
 import TurkeyShoot from "./Component/Pages/Game/Weekly/TurkeyShoot";
+import LotteryResults from "./Component/Pages/result/ResultPage";
 
 function App() {
   const auth = getAuth();
@@ -123,6 +124,7 @@ function App() {
           <Route path="dashboard" element={<DefaultLayout />} />
 
           <Route path="/profile" element={<Profile />} />
+          <Route path="/results" element={<LotteryResults />} />
           <Route path="/admin/dashboard" element={<AdminForm />} />
           <Route path="/recharge" element={<Recharge />} />
           <Route path="/withdraw" element={<Withdrawal />} />

@@ -13,7 +13,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [tabs, setTabs] = useState([
     { name: "Play", href: "/dashboard", icon: PlayCircleIcon },
-    { name: "Results", href: "/", icon: ChartPieIcon },
+    { name: "Results", href: "/results", icon: ChartPieIcon },
     { name: "Tickets", href: "/", icon: SquaresPlusIcon },
     { name: "Account", href: "/profile", icon: FingerPrintIcon },
   ]);
@@ -24,7 +24,7 @@ const Header = () => {
         if (user.email === "l0tteryapp2024@gmail.com") {
           setTabs([
             { name: "Play", href: "/dashboard", icon: PlayCircleIcon },
-            { name: "Results", href: "/", icon: ChartPieIcon },
+            { name: "Results", href: "/results", icon: ChartPieIcon },
             { name: "Tickets", href: "/", icon: SquaresPlusIcon },
             { name: "Admin", href: "/admin/dashboard", icon: FingerPrintIcon },
           ]);
