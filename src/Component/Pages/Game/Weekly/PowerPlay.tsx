@@ -6,8 +6,7 @@ import Header from '../../../Layout/Header/Header';
 import Footer from '../../../Layout/footer/Footer';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 Modal.setAppElement('#root');
 
@@ -16,10 +15,13 @@ const MonthlyGame: React.FC = () => {
   const [ticketModalOpen, setTicketModalOpen] = useState<boolean>(false);
   const [ticketCode, setTicketCode] = useState<number | null>(null);
   const [ticketCodes, setTicketCodes] = useState<number[]>([]);
+  const [displayedTicketCodes, setDisplayedTicketCodes] = useState<number[]>([]);
   const [search, setSearch] = useState('');
   const [ticketsGenerated, setTicketsGenerated] = useState(false);
   const [soldTickets, setSoldTickets] = useState<string[]>([]);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+  const [ticketsDisplayedCount, setTicketsDisplayedCount] = useState(500);
+  const ticketsPerPage = 500;
   const db = getFirestore();
 
   useEffect(() => {
@@ -66,31 +68,38 @@ const MonthlyGame: React.FC = () => {
     }
 
     setTicketCodes(generatedCodes);
+    setDisplayedTicketCodes(generatedCodes.slice(0, ticketsDisplayedCount));
     setTicketsGenerated(true);
   };
 
+  const loadMoreTickets = () => {
+    const newTicketsDisplayedCount = ticketsDisplayedCount + ticketsPerPage;
+    setDisplayedTicketCodes(ticketCodes.slice(0, newTicketsDisplayedCount));
+    setTicketsDisplayedCount(newTicketsDisplayedCount);
+  };
+
   const renderTicketButtons = () => {
-    const filteredCodes = ticketCodes.filter(code => code.toString().includes(search));
+    const filteredCodes = displayedTicketCodes.filter(code => code.toString().includes(search));
+
     return filteredCodes.map((code, index) => {
-      const isSold = soldTickets.includes(code);
-  
+      const isSold = soldTickets.includes(code.toString());
       return (
-        <button onClick={() => {
-          setTicketCode(code);
-          setTicketModalOpen(true);
-        }}
+        <button
+          onClick={() => {
+            setTicketCode(code);
+            setTicketModalOpen(true);
+          }}
           key={index}
           className={`w-36 mx-3 sm:w-80 sm:mx-5 text-white font-bold py-2 px-4 border border-transparent rounded mt-3 transition ease-in-out duration-150 transform hover:scale-105 ${isSold ? 'opacity-50 cursor-not-allowed bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 flex justify-start' : 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700'}`}
           disabled={isSold}
-          style={{
-            position: 'relative'
-          }}>
+          style={{ position: 'relative' }}
+        >
           {isSold && <span className="absolute top-0 right-0 bg-red-500 text-white py-1 px-2 rounded-full text-xs">Sold</span>}
           PP{code}
         </button>
       );
     });
-  };  
+  };
 
   const renderNumbers = () => {
     const numbers: JSX.Element[] = [];
@@ -100,7 +109,8 @@ const MonthlyGame: React.FC = () => {
         <div
           key={i}
           className={`number ${isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} rounded-full mr-2 mb-2 w-7 h-7 flex items-center justify-center border border-gray-300 shadow-lg cursor-pointer transition duration-300 ease-in-out transform hover:scale-110`}
-          onClick={() => toggleNumber(i)}>
+          onClick={() => toggleNumber(i)}
+        >
           {i}
         </div>
       );
@@ -115,7 +125,8 @@ const MonthlyGame: React.FC = () => {
           <button
             className="generate bg-blue-500 mt-4 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={generateTickets}
-            disabled={selectedNumbers.length !== 5}>
+            disabled={selectedNumbers.length !== 5}
+          >
             Available Tickets
           </button>
         </div>
@@ -147,6 +158,16 @@ const MonthlyGame: React.FC = () => {
             <div className="grid grid-cols-2 gap-1 pl-3 pr-3">
               {renderTicketButtons()}
             </div>
+            {displayedTicketCodes.length < ticketCodes.length && (
+              <div className="w-full flex justify-center mt-4">
+                <button
+                  onClick={loadMoreTickets}
+                  className="text-red-600 font-bold"
+                >
+                 ... More ...
+                </button>
+              </div>
+            )}
           </>
         )}
         <Modal
@@ -171,7 +192,8 @@ const MonthlyGame: React.FC = () => {
               padding: '20px',
               paddingRight: '10px',
             }
-          }}>
+          }}
+        >
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <FontAwesomeIcon
               icon={faTimes}
