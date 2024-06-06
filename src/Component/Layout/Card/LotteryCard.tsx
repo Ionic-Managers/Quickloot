@@ -111,7 +111,7 @@ const LotteryCard: React.FC = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (!user) {
-        window.location.href = '/login';
+        window.location.href = '/signup';
       }
     });
 
