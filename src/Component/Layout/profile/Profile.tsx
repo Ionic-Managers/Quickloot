@@ -5,6 +5,8 @@ import Header from '../Header/Header';
 import Footer from '../footer/Footer';
 import Referral from '../refer/Referral';
 import MyTickets from '../MyTickets/MyTickets';
+import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 interface UserData {
   uid: string;
@@ -21,9 +23,23 @@ interface UserData {
 
 const Profile = () => {
   const currentUser = auth.currentUser;
+  const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isReferralOpen, setIsReferralOpen] = useState(false);
   const [isTicketOpen, setIsTicketOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+        navigate('/signup');
+      }
+    });
+    return () => unsubscribe();
+  }, [navigate]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -92,15 +108,19 @@ const Profile = () => {
                     ))}
                   </div>
                   <div className="flex flex-col gap-4 items-center">
-                    <button onClick={toggleReferral} className="font-bold text-gray-700 focus:outline-none sm:text-2xl sm:w-44 sm:relative sm:-top-24">
-                      Referral Link
-                    </button>
-                    {isReferralOpen && <div className="transition-opacity duration-500 ease-in-out"><Referral userId={userData.uid} /></div>}
-                    <hr />
-                    <button onClick={toggleTicket} className="font-bold text-gray-700 focus:outline-none sm:text-2xl">
-                      My Tickets
-                    </button>
-                    {isTicketOpen && <div className="transition-opacity duration-500 ease-in-out sm:w-44 sm:h-56"><MyTickets /></div>}
+                    {loggedIn && (
+                      <>
+                        <button onClick={toggleReferral} className="font-bold text-gray-700 focus:outline-none sm:text-2xl sm:w-44 sm:relative sm:-top-24">
+                          Referral Link
+                        </button>
+                        {isReferralOpen && <div className="transition-opacity duration-500 ease-in-out"><Referral userId={userData.uid} /></div>}
+                        <hr />
+                        <button onClick={toggleTicket} className="font-bold text-gray-700 focus:outline-none sm:text-2xl">
+                          My Tickets
+                        </button>
+                        {isTicketOpen && <div className="transition-opacity duration-500 ease-in-out sm:w-44 sm:h-56"><MyTickets /></div>}
+                      </>
+                    )}
                   </div>
                 </div>
               ) : (
@@ -110,7 +130,7 @@ const Profile = () => {
           </div>
         </div>
         <div className='w-full sm:relative sm:top-16'>
-        <Footer />
+          <Footer />
         </div>
       </div>
     </>

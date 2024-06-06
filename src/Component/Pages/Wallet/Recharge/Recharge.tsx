@@ -127,12 +127,18 @@ const Recharge: React.FC = () => {
                     <p className="text-sm text-red-600 mb-4">5. In case of account modification: payment valid for 1 hour only.</p>
                 </div>
                 <div className="flex flex-col items-center mt-10">
+                <input
+                        type="text"
+                        placeholder="Selected Recharge Amount"
+                        value={rechargeAmount !== null ? `₹${rechargeAmount}` : ''}
+                        readOnly
+                        className="border border-gray-300 p-2 rounded-lg w-[325px] mt-4 bg-gray-100 cursor-not-allowed" />
                     <input
                         type="text"
                         placeholder="Enter UTR Number"
                         value={utrNumber}
                         onChange={(e) => setUtrNumber(e.target.value)}
-                        className="border border-gray-300 p-2 rounded-lg w-[325px]" />
+                        className="border border-gray-300 p-2 rounded-lg w-[325px] mt-4" />
                     <input
                         type="file"
                         accept="image/*"

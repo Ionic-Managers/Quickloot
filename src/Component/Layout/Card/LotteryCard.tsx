@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
-import { db } from '../../../firebase/Firebase';
+import { db, auth } from '../../../firebase/Firebase';
 import { BsTags } from "react-icons/bs";
 import { LuAlarmClock } from "react-icons/lu";
 import { IoIosInformationCircleOutline } from "react-icons/io";
@@ -106,7 +106,17 @@ const LotteryCard: React.FC = () => {
     const intervalId = setInterval(updateTimers, 1000);
   
     return () => clearInterval(intervalId);
-  }, []);    
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = '/login';
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   if (isLoading) {
     return (
