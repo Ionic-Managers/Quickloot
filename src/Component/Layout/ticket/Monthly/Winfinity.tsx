@@ -64,6 +64,19 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
     if (balance >= 999) {
       try {
         setPurchased(true);
+        const newBalance = balance - 999;
+        setBalance(newBalance);
+
+        const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
+        const querySnapshot = await getDocs(q);
+        const updatePromises: Promise<void>[] = [];
+
+        querySnapshot.forEach((docSnapshot) => {
+          const docRef = docSnapshot.ref;
+          updatePromises.push(updateDoc(docRef, { balance: newBalance }));
+        });
+        await Promise.all(updatePromises);
+
         const buyersListRef = doc(db, "Monthly", "Winfinity");
         const buyersDoc = await getDoc(buyersListRef);
         let newTotal = 999;
@@ -85,18 +98,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
       } catch (error) {
         console.error("Error handling the download and data update:", error);
       }
-      const newBalance = balance - 999;
-      setBalance(newBalance);
-
-      const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
-      const querySnapshot = await getDocs(q);
-      const updatePromises: Promise<void>[] = [];
-
-      querySnapshot.forEach((docSnapshot) => {
-        const docRef = docSnapshot.ref;
-        updatePromises.push(updateDoc(docRef, { balance: newBalance }));
-      });
-      await Promise.all(updatePromises);
 
       const ticketElement = ticketRef.current;
       if (!ticketElement) return;
@@ -115,7 +116,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
     }
   };
   const nextMonthlyDate = new Date(new Date().getFullYear(), (new Date().getMonth() + 1) % 12, new Date().getDate()).toLocaleDateString('en-GB');
-
 
   return (
     <>

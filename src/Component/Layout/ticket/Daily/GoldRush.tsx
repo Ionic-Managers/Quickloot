@@ -61,6 +61,19 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
     if (balance >= 69) {
       try {
         setPurchased(true);
+        const newBalance = balance - 69;
+        setBalance(newBalance);
+
+        const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
+        const querySnapshot = await getDocs(q);
+        const updatePromises: Promise<void>[] = [];
+
+        querySnapshot.forEach((docSnapshot) => {
+          const docRef = docSnapshot.ref;
+          updatePromises.push(updateDoc(docRef, { balance: newBalance }));
+        });
+        await Promise.all(updatePromises);
+
         const buyersListRef = doc(db, "Daily", "GoldRush");
         const buyersDoc = await getDoc(buyersListRef);
         let newTotal = 69;
@@ -82,18 +95,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
       } catch (error) {
         console.error("Error handling the download and data update:", error);
       }
-      const newBalance = balance - 69;
-      setBalance(newBalance);
-
-      const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
-      const querySnapshot = await getDocs(q);
-      const updatePromises: Promise<void>[] = [];
-
-      querySnapshot.forEach((docSnapshot) => {
-        const docRef = docSnapshot.ref;
-        updatePromises.push(updateDoc(docRef, { balance: newBalance }));
-      });
-      await Promise.all(updatePromises);
 
       const ticketElement = ticketRef.current;
       if (!ticketElement) return;
@@ -142,11 +143,11 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
 
       </div>
       <div className="absolute top-72 left-20">
-        {purchased ? ( // If ticket is purchased
+        {purchased ? (
           <button className="bg-gray-400 text-white font-bold py-2 px-4 ml-6 rounded-lg shadow-lg" disabled>
             Purchased
           </button>
-        ) : ( // If ticket is not purchased
+        ) : (
           <button onClick={downloadTicket} className="bg-yellow-300 hover:bg-yellow-400 text-blue-800 font-bold py-2 px-4 ml-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
             Buy now
           </button>

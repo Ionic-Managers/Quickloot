@@ -64,6 +64,19 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
     if (balance >= 1499) {
       try {
         setPurchased(true);
+        const newBalance = balance - 1499;
+        setBalance(newBalance);
+
+        const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
+        const querySnapshot = await getDocs(q);
+        const updatePromises: Promise<void>[] = [];
+
+        querySnapshot.forEach((docSnapshot) => {
+          const docRef = docSnapshot.ref;
+          updatePromises.push(updateDoc(docRef, { balance: newBalance }));
+        });
+        await Promise.all(updatePromises);
+
         const buyersListRef = doc(db, "Monthly", "Minted Millions");
         const buyersDoc = await getDoc(buyersListRef);
         let newTotal = 1499;
@@ -85,18 +98,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
       } catch (error) {
         console.error("Error handling the download and data update:", error);
       }
-      const newBalance = balance - 1499;
-      setBalance(newBalance);
-
-      const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
-      const querySnapshot = await getDocs(q);
-      const updatePromises: Promise<void>[] = [];
-
-      querySnapshot.forEach((docSnapshot) => {
-        const docRef = docSnapshot.ref;
-        updatePromises.push(updateDoc(docRef, { balance: newBalance }));
-      });
-      await Promise.all(updatePromises);
 
       const ticketElement = ticketRef.current;
       if (!ticketElement) return;
@@ -108,7 +109,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
       const currentTime = new Date().toTimeString().split(' ')[0].replace(/:/g, '-');
       const ticketImageRef = ref(storage, `${userName.uid}/${userName.uid}_${currentTime}.png`);
       await uploadBytes(ticketImageRef, blob);
-      
+
     }
     else {
       alert("Please Recharge")
@@ -116,7 +117,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
   };
 
   const nextMonthlyDate = new Date(new Date().getFullYear(), (new Date().getMonth() + 1) % 12, new Date().getDate()).toLocaleDateString('en-GB');
-
 
   return (
     <>
@@ -131,7 +131,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
           <p className="text-[8px] relative top-[107px] text-center left-20 sm:text-lg sm:relative sm:top-[252px] sm:left-[148px] sm:font-bold ">MM{ticketCode}</p>
           <p className="text-[8px] absolute left-[317px] top-6  text-white sm:text-lg sm:relative sm:top-1 sm:left-[770px]">MM{ticketCode}</p>
           <p className="text-[10px] text-white mt-[75px] ml-8 sm:text-lg sm:relative sm:top-[70px] sm:left-[50px]"><span className="archivo-black-regular">{currentDate}</span> </p>
-
         </div>
         <p className='text-[10px] text-white relative -top-8 left-16 sm:text-lg sm:relative sm:-top-[75px] sm:left-[150px]'>{nextMonthlyDate}</p>
       </div>
@@ -146,7 +145,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
           </button>
         )}
       </div>
-
     </>
   );
 };

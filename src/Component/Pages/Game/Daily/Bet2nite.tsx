@@ -36,6 +36,7 @@ const MonthlyGame: React.FC = () => {
         }
       }
     };
+
     fetchSoldTickets();
     const id = setInterval(fetchSoldTickets, 200);
     setIntervalId(id);

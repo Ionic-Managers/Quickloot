@@ -26,13 +26,13 @@ const MonthlyGame: React.FC = () => {
 
   useEffect(() => {
     const fetchSoldTickets = async () => {
-      const monthlyDocRef = doc(db, "Daily", "Ball Buster");
-      const monthlyDocSnap = await getDoc(monthlyDocRef);
-      if (monthlyDocSnap.exists()) {
-        const data = monthlyDocSnap.data();
+      const dailyDocRef = doc(db, "Daily", "Ball Buster");
+      const dailyDocSnap = await getDoc(dailyDocRef);
+      if (dailyDocSnap.exists()) {
+        const data = dailyDocSnap.data();
         if (data && data.tickets) {
           const ticketsArray = Object.values(data.tickets);
-          setSoldTickets(ticketsArray);
+          setSoldTickets(ticketsArray as string[]);
         }
       }
     };
@@ -213,4 +213,4 @@ const MonthlyGame: React.FC = () => {
   );
 };
 
-export default MonthlyGame;
+export default MonthlyGame

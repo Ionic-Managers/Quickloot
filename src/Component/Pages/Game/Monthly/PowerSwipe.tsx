@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import LotteryInfo from '../../../Layout/Lotteryinfo/LotteryInfo';
 import MonthlyTicket from '../../../Layout/ticket/Monthly/PowerSwipe';
@@ -19,10 +19,10 @@ const MonthlyGame: React.FC = () => {
   const [search, setSearch] = useState('');
   const [ticketsGenerated, setTicketsGenerated] = useState(false);
   const [soldTickets, setSoldTickets] = useState<string[]>([]);
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const [ticketsDisplayedCount, setTicketsDisplayedCount] = useState(500);
   const ticketsPerPage = 500;
   const db = getFirestore();
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const fetchSoldTickets = async () => {
@@ -36,16 +36,17 @@ const MonthlyGame: React.FC = () => {
         }
       }
     };
+
     fetchSoldTickets();
     const id = setInterval(fetchSoldTickets, 200);
-    setIntervalId(id);
+    intervalRef.current = id;
 
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
       }
     };
-  }, [db, intervalId]);
+  }, [db]);
 
   const toggleNumber = (number: number) => {
     if (selectedNumbers.length === 5 && !selectedNumbers.includes(number)) {

@@ -62,6 +62,19 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
     if (balance >= 75) {
       try {
         setPurchased(true);
+        const newBalance = balance - 149;
+        setBalance(newBalance);
+
+        const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
+        const querySnapshot = await getDocs(q);
+        const updatePromises: Promise<void>[] = [];
+
+        querySnapshot.forEach((docSnapshot) => {
+          const docRef = docSnapshot.ref;
+          updatePromises.push(updateDoc(docRef, { balance: newBalance }));
+        });
+        await Promise.all(updatePromises);
+
         const buyersListRef = doc(db, "Daily", "Bet & Win");
         const buyersDoc = await getDoc(buyersListRef);
         let newTotal = 75;
@@ -83,18 +96,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
       } catch (error) {
         console.error("Error handling the download and data update:", error);
       }
-      const newBalance = balance - 75;
-      setBalance(newBalance);
-
-      const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
-      const querySnapshot = await getDocs(q);
-      const updatePromises: Promise<void>[] = [];
-
-      querySnapshot.forEach((docSnapshot) => {
-        const docRef = docSnapshot.ref;
-        updatePromises.push(updateDoc(docRef, { balance: newBalance }));
-      });
-      await Promise.all(updatePromises);
 
       const ticketElement = ticketRef.current;
       if (!ticketElement) return;

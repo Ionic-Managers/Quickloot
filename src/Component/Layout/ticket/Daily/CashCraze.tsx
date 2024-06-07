@@ -62,6 +62,19 @@ const PowerSwipe: React.FC<PowerSwipeProps> = ({ selectedNumbers, ticketCode }) 
     if (balance >= 89) {
       try {
         setPurchased(true);
+        const newBalance = balance - 89;
+        setBalance(newBalance);
+
+        const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
+        const querySnapshot = await getDocs(q);
+        const updatePromises: Promise<void>[] = [];
+
+        querySnapshot.forEach((docSnapshot) => {
+          const docRef = docSnapshot.ref;
+          updatePromises.push(updateDoc(docRef, { balance: newBalance }));
+        });
+        await Promise.all(updatePromises);
+
         const buyersListRef = doc(db, "Daily", "Cash Craze");
         const buyersDoc = await getDoc(buyersListRef);
         let newTotal = 89;
@@ -83,18 +96,6 @@ const PowerSwipe: React.FC<PowerSwipeProps> = ({ selectedNumbers, ticketCode }) 
       } catch (error) {
         console.error("Error handling the download and data update:", error);
       }
-      const newBalance = balance - 89;
-      setBalance(newBalance);
-
-      const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
-      const querySnapshot = await getDocs(q);
-      const updatePromises: Promise<void>[] = [];
-
-      querySnapshot.forEach((docSnapshot) => {
-        const docRef = docSnapshot.ref;
-        updatePromises.push(updateDoc(docRef, { balance: newBalance }));
-      });
-      await Promise.all(updatePromises);
 
       const ticketElement = ticketRef.current;
       if (!ticketElement) return;

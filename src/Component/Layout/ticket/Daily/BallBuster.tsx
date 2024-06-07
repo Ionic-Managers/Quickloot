@@ -62,6 +62,19 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
     if (balance >= 149) {
       try {
         setPurchased(true);
+        const newBalance = balance - 149;
+        setBalance(newBalance);
+
+        const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
+        const querySnapshot = await getDocs(q);
+        const updatePromises: Promise<void>[] = [];
+
+        querySnapshot.forEach((docSnapshot) => {
+          const docRef = docSnapshot.ref;
+          updatePromises.push(updateDoc(docRef, { balance: newBalance }));
+        });
+        await Promise.all(updatePromises);
+
         const buyersListRef = doc(db, "Daily", "Ball Buster");
         const buyersDoc = await getDoc(buyersListRef);
         let newTotal = 149;
@@ -80,19 +93,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
         };
 
         await updateDoc(buyersListRef, updateData);
-
-        const newBalance = balance - 149;
-        setBalance(newBalance);
-
-        const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
-        const querySnapshot = await getDocs(q);
-        const updatePromises: Promise<void>[] = [];
-
-        querySnapshot.forEach((docSnapshot) => {
-          const docRef = docSnapshot.ref;
-          updatePromises.push(updateDoc(docRef, { balance: newBalance }));
-        });
-        await Promise.all(updatePromises);
 
         const ticketElement = ticketRef.current;
         if (!ticketElement) return;
