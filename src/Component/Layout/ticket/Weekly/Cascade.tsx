@@ -62,17 +62,6 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
     if (balance >= 699) {
       try {
         setPurchased(true);
-        const ticketElement = ticketRef.current;
-        if (!ticketElement) return;
-
-        const canvas = await html2canvas(ticketElement);
-        const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve));
-        if (!blob) return;
-
-        const currentTime = new Date().toTimeString().split(' ')[0].replace(/:/g, '-');
-        const ticketImageRef = ref(storage, `${userName.uid}/${userName.uid}_${currentTime}.png`);
-        await uploadBytes(ticketImageRef, blob);
-
         const buyersListRef = doc(db, "Weekly", "Cascade");
         const buyersDoc = await getDoc(buyersListRef);
         let newTotal = 699;
@@ -106,6 +95,18 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
         updatePromises.push(updateDoc(docRef, { balance: newBalance }));
       });
       await Promise.all(updatePromises);
+
+      const ticketElement = ticketRef.current;
+      if (!ticketElement) return;
+
+      const canvas = await html2canvas(ticketElement);
+      const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve));
+      if (!blob) return;
+
+      const currentTime = new Date().toTimeString().split(' ')[0].replace(/:/g, '-');
+      const ticketImageRef = ref(storage, `${userName.uid}/${userName.uid}_${currentTime}.png`);
+      await uploadBytes(ticketImageRef, blob);
+
     }
     else {
       alert("Please Recharge")
@@ -129,7 +130,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}>
-         <p className="text-[7px] font-black relative top-[119px] left-20 sm:text-xl sm:relative sm:top-[280px] sm:left-48">{selectedNumbers.join(' , ')}</p>
+          <p className="text-[7px] font-black relative top-[119px] left-20 sm:text-xl sm:relative sm:top-[280px] sm:left-48">{selectedNumbers.join(' , ')}</p>
           <p className="text-[8px] relative top-[107px] text-center left-20 sm:text-lg sm:relative sm:top-[252px] sm:left-[148px] sm:font-bold ">CC{ticketCode}</p>
           <p className="text-[8px] absolute left-[317px] top-6  text-white sm:text-lg sm:relative sm:top-1 sm:left-[770px]">CC{ticketCode}</p>
           <p className="text-[10px] text-white mt-[75px] ml-8 sm:text-lg sm:relative sm:top-[70px] sm:left-[50px]"><span className="archivo-black-regular">{currentDate}</span> </p>
@@ -137,12 +138,12 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
         </div>
         <p className='text-[10px] text-white relative -top-8 left-16 sm:text-lg sm:relative sm:-top-[75px] sm:left-[150px]'>{getNextWeekDate()}</p>
         <div className="flex-col justify-center items-center w-max h-max relative -top-[92px] sm:relative sm:left-[335px] sm:-top-[218px] -right-[140px]">
-            <QRCode className='relative -top-1 -left-1 sm:relative sm:top-[35px]' value={ticketCode.toString()} size={60} />
-          </div>
+          <QRCode className='relative -top-1 -left-1 sm:relative sm:top-[35px]' value={ticketCode.toString()} size={60} />
+        </div>
 
       </div>
       <div className="absolute top-72 left-20">
-      {purchased ? ( // If ticket is purchased
+        {purchased ? ( // If ticket is purchased
           <button className="bg-gray-400 text-white font-bold py-2 px-4 ml-6 rounded-lg shadow-lg" disabled>
             Purchased
           </button>

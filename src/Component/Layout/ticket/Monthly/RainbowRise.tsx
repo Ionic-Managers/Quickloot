@@ -59,20 +59,9 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
   const currentDate = new Date().toLocaleDateString();
 
   const downloadTicket = async () => {
-    if(balance >= 499){
+    if (balance >= 499) {
       try {
         setPurchased(true);
-        const ticketElement = ticketRef.current;
-        if (!ticketElement) return;
-  
-        const canvas = await html2canvas(ticketElement);
-        const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve));
-        if (!blob) return;
-  
-        const currentTime = new Date().toTimeString().split(' ')[0].replace(/:/g, '-');
-        const ticketImageRef = ref(storage, `${userName.uid}/${userName.uid}_${currentTime}.png`);
-        await uploadBytes(ticketImageRef, blob);
-  
         const buyersListRef = doc(db, "Monthly", "Rainbow Rise");
         const buyersDoc = await getDoc(buyersListRef);
         let newTotal = 499;
@@ -89,12 +78,12 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
           tickets: firebase.firestore.FieldValue.arrayUnion(ticketCode),
           [ticketCode]: userName?.email
         };
-  
+
         await updateDoc(buyersListRef, updateData);
       } catch (error) {
         console.error("Error handling the download and data update:", error);
       }
-      const newBalance = balance-499;
+      const newBalance = balance - 499;
       setBalance(newBalance);
 
       const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
@@ -106,8 +95,20 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
         updatePromises.push(updateDoc(docRef, { balance: newBalance }));
       });
       await Promise.all(updatePromises);
+
+      const ticketElement = ticketRef.current;
+      if (!ticketElement) return;
+
+      const canvas = await html2canvas(ticketElement);
+      const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve));
+      if (!blob) return;
+
+      const currentTime = new Date().toTimeString().split(' ')[0].replace(/:/g, '-');
+      const ticketImageRef = ref(storage, `${userName.uid}/${userName.uid}_${currentTime}.png`);
+      await uploadBytes(ticketImageRef, blob);
+
     }
-    else{
+    else {
       alert("Please Recharge")
     }
   };
@@ -123,7 +124,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}>
-         <p className="text-[7px] font-black relative top-[119px] left-20 sm:text-xl sm:relative sm:top-[280px] sm:left-48">{selectedNumbers.join(' , ')}</p>
+          <p className="text-[7px] font-black relative top-[119px] left-20 sm:text-xl sm:relative sm:top-[280px] sm:left-48">{selectedNumbers.join(' , ')}</p>
           <p className="text-[8px] relative top-[107px] text-center left-20 sm:text-lg sm:relative sm:top-[252px] sm:left-[148px] sm:font-bold ">RR{ticketCode}</p>
           <p className="text-[8px] absolute left-[317px] top-6  text-white sm:text-lg sm:relative sm:top-1 sm:left-[770px]">RR{ticketCode}</p>
           <p className="text-[10px] text-white mt-[75px] ml-8 sm:text-lg sm:relative sm:top-[70px] sm:left-[50px]"><span className="archivo-black-regular">{currentDate}</span> </p>
@@ -132,7 +133,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
         <p className='text-[10px] text-white relative -top-8 left-16 sm:text-lg sm:relative sm:-top-[75px] sm:left-[150px]'>{nextMonthlyDate}</p>
       </div>
       <div className="absolute top-72 left-28">
-      {purchased ? ( // If ticket is purchased
+        {purchased ? ( // If ticket is purchased
           <button className="bg-gray-400 text-white font-bold py-2 px-4 ml-6 rounded-lg shadow-lg" disabled>
             Purchased
           </button>
