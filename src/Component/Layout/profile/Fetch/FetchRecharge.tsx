@@ -100,14 +100,14 @@ const RechargeTable: React.FC = () => {
         </table>
       </div>
       {showImagePopup && (
-        <div className="fixed top-24 w-3/4 h-3/4 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="fixed top-24 w-3/4 h-3/4 flex sm:left-44 items-center justify-center bg-slate-950 bg-opacity-75">
           <div className="relative max-w-3xl mx-auto">
             <button
               onClick={handleCloseImagePopup}
               className="absolute top-4 right-4 text-red-600 text-lg focus:outline-none">
               close
             </button>
-            <img src={selectedImage} alt="" className="max-w-full max-h-full" />
+            <img src={selectedImage} alt="" className="max-w-full max-h-full sm:w-[800px] sm:h-[500px]" />
           </div>
         </div>
       )}
