@@ -34,6 +34,7 @@ const ReferralTable: React.FC = () => {
 
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+      <h1 className='text-2xl font-semibold text-gray-800 mb-4'>Referrals List</h1>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           {referrals.length > 0 && (
@@ -70,7 +71,7 @@ const ReferralTable: React.FC = () => {
           ))}
         </tbody>
       </table>
-      {referrals.length === 0 && <p className="p-4">No data found</p>}
+      {referrals.length === 0 && <p className="p-4">No referral found</p>}
     </div>
   );
   

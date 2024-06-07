@@ -60,8 +60,8 @@ function TicketData() {
 
   return (
     <div className="flex flex-col justify-around gap-8">
-      <div className="w-full sm:w-1/2 md:w-1/3 sm:h-96  overflow-y-auto">
-        <h2 className="text-lg font-bold mb-4">Monthly</h2>
+      <div className="w-full sm:w-full md:w-full sm:h-96  overflow-y-auto">
+        <h2 className="text-lg font-bold mb-4">Monthly Ticket List</h2>
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-200">
@@ -82,8 +82,8 @@ function TicketData() {
         </table>
       </div>
 
-      <div className="w-full sm:w-1/2 md:w-1/3 sm:h-96  overflow-y-auto">
-        <h2 className="text-lg font-bold mb-4">Weekly</h2>
+      <div className="w-full sm:w-full md:w-full sm:h-96  overflow-y-auto">
+        <h2 className="text-lg font-bold mb-4">Weekly Ticket List</h2>
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-200">
@@ -104,8 +104,8 @@ function TicketData() {
         </table>
       </div>
 
-      <div className="w-full sm:w-1/2 md:w-1/3 sm:h-96  overflow-y-auto">
-        <h2 className="text-lg font-bold mb-4">Daily</h2>
+      <div className="w-full sm:w-full md:w-full sm:h-96  overflow-y-auto">
+        <h2 className="text-lg font-bold mb-4">Daily Ticket List</h2>
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-200">

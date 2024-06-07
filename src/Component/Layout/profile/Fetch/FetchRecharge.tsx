@@ -107,7 +107,7 @@ const RechargeTable: React.FC = () => {
               className="absolute top-4 right-4 text-red-600 text-lg focus:outline-none">
               close
             </button>
-            <img src={selectedImage} alt="" className="max-w-full max-h-full sm:w-[800px] sm:h-[500px]" />
+            <img src={selectedImage} alt="" className="max-w-full max-h-full sm:w-[300px] sm:h-[480px]" />
           </div>
         </div>
       )}
