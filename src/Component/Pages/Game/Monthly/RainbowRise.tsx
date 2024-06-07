@@ -26,7 +26,7 @@ const MonthlyGame: React.FC = () => {
 
   useEffect(() => {
     const fetchSoldTickets = async () => {
-      const monthlyDocRef = doc(db, "Monthly", "RainbowRise");
+      const monthlyDocRef = doc(db, "Monthly", "Rainbow Rise");
       const monthlyDocSnap = await getDoc(monthlyDocRef);
       if (monthlyDocSnap.exists()) {
         const data = monthlyDocSnap.data();
@@ -45,7 +45,7 @@ const MonthlyGame: React.FC = () => {
         clearInterval(intervalId);
       }
     };
-  }, [db, intervalId]);
+  }, [db]);
 
   const toggleNumber = (number: number) => {
     if (selectedNumbers.length === 5 && !selectedNumbers.includes(number)) {

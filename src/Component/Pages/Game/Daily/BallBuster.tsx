@@ -19,31 +19,32 @@ const MonthlyGame: React.FC = () => {
   const [search, setSearch] = useState('');
   const [ticketsGenerated, setTicketsGenerated] = useState(false);
   const [soldTickets, setSoldTickets] = useState<string[]>([]);
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const [ticketsDisplayedCount, setTicketsDisplayedCount] = useState(500);
   const ticketsPerPage = 500;
   const db = getFirestore();
 
   useEffect(() => {
     const fetchSoldTickets = async () => {
-      const dailyDocRef = doc(db, "Daily", "Ball Buster");
-      const dailyDocSnap = await getDoc(dailyDocRef);
-      if (dailyDocSnap.exists()) {
-        const data = dailyDocSnap.data();
-        if (data && data.tickets) {
-          const ticketsArray = Object.values(data.tickets);
-          setSoldTickets(ticketsArray as string[]);
+      try {
+        const monthlyDocRef = doc(db, "Daily", "Ball Buster");
+        const monthlyDocSnap = await getDoc(monthlyDocRef);
+        if (monthlyDocSnap.exists()) {
+          const data = monthlyDocSnap.data();
+          if (data && data.tickets) {
+            const ticketsArray = Object.values(data.tickets);
+            setSoldTickets(ticketsArray.map(ticket => ticket.toString()));
+          }
         }
+      } catch (error) {
+        console.error("Error fetching sold tickets:", error);
       }
     };
+    
     fetchSoldTickets();
     const id = setInterval(fetchSoldTickets, 200);
-    setIntervalId(id);
-
+    
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
+      clearInterval(id);
     };
   }, [db]);
 

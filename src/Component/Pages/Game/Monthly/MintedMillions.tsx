@@ -19,7 +19,6 @@ const MonthlyGame: React.FC = () => {
   const [search, setSearch] = useState('');
   const [ticketsGenerated, setTicketsGenerated] = useState(false);
   const [soldTickets, setSoldTickets] = useState<string[]>([]);
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const [ticketsDisplayedCount, setTicketsDisplayedCount] = useState(500);
   const ticketsPerPage = 500;
   const db = getFirestore();
@@ -38,12 +37,9 @@ const MonthlyGame: React.FC = () => {
     };
     fetchSoldTickets();
     const id = setInterval(fetchSoldTickets, 200);
-    setIntervalId(id);
 
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
+      clearInterval(id);
     };
   }, [db]);
 
@@ -164,7 +160,7 @@ const MonthlyGame: React.FC = () => {
                   onClick={loadMoreTickets}
                   className="text-red-600 font-bold"
                 >
-                 ... More ...
+                  ... More ...
                 </button>
               </div>
             )}

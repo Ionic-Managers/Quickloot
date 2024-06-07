@@ -32,20 +32,18 @@ const MonthlyGame: React.FC = () => {
         const data = monthlyDocSnap.data();
         if (data && data.tickets) {
           const ticketsArray = Object.values(data.tickets);
-          setSoldTickets(ticketsArray);
+          setSoldTickets(ticketsArray.map(ticket => ticket.toString()));
         }
       }
     };
     fetchSoldTickets();
     const id = setInterval(fetchSoldTickets, 200);
-    setIntervalId(id);
-
+    setIntervalId(prevId => prevId === null ? id : prevId);
+  
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
+      clearInterval(id);
     };
-  }, [db]);
+  }, [db]);  
 
   const toggleNumber = (number: number) => {
     if (selectedNumbers.length === 5 && !selectedNumbers.includes(number)) {

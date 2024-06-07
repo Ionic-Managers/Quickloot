@@ -45,7 +45,7 @@ const MonthlyGame: React.FC = () => {
         clearInterval(intervalId);
       }
     };
-  }, [db, intervalId]);
+  }, [db]);
 
   const toggleNumber = (number: number) => {
     if (selectedNumbers.length === 5 && !selectedNumbers.includes(number)) {
