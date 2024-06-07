@@ -26,7 +26,7 @@ const MonthlyGame: React.FC = () => {
 
   useEffect(() => {
     const fetchSoldTickets = async () => {
-      const monthlyDocRef = doc(db, "Daily", "Prize Paradise");
+      const monthlyDocRef = doc(db, "Daily", "Price Paradise");
       const monthlyDocSnap = await getDoc(monthlyDocRef);
       if (monthlyDocSnap.exists()) {
         const data = monthlyDocSnap.data();

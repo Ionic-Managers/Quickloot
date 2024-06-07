@@ -32,7 +32,7 @@ const MonthlyGame: React.FC = () => {
         const data = monthlyDocSnap.data();
         if (data && data.tickets) {
           const ticketsArray = Object.values(data.tickets);
-          setSoldTickets(ticketsArray);
+          setSoldTickets(ticketsArray.map(ticket => ticket.toString()));
         }
       }
     };

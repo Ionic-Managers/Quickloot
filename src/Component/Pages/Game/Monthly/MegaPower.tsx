@@ -26,16 +26,21 @@ const MonthlyGame: React.FC = () => {
 
   useEffect(() => {
     const fetchSoldTickets = async () => {
-      const monthlyDocRef = doc(db, "Monthly", "Mega Power");
-      const monthlyDocSnap = await getDoc(monthlyDocRef);
-      if (monthlyDocSnap.exists()) {
-        const data = monthlyDocSnap.data();
-        if (data && data.tickets) {
-          const ticketsArray = Object.values(data.tickets);
-          setSoldTickets(ticketsArray);
+      try {
+        const monthlyDocRef = doc(db, "Monthly", "Mega Power");
+        const monthlyDocSnap = await getDoc(monthlyDocRef);
+        if (monthlyDocSnap.exists()) {
+          const data = monthlyDocSnap.data();
+          if (data && data.tickets) {
+            const ticketsArray = Object.values(data.tickets);
+            setSoldTickets(ticketsArray.map(ticket => ticket.toString()));
+          }
         }
+      } catch (error) {
+        console.error("Error fetching sold tickets:", error);
       }
     };
+
     fetchSoldTickets();
     const id = setInterval(fetchSoldTickets, 200);
     setIntervalId(id);
