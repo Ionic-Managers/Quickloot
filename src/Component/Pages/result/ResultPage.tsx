@@ -14,8 +14,6 @@ const LotteryResults = () => {
   const [dailyResults, setDailyResults] = useState<ResultData[]>([]);
   const [weeklyResults, setWeeklyResults] = useState<ResultData[]>([]);
   const [monthlyResults, setMonthlyResults] = useState<ResultData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     const fetchResults = async (collectionName: string, setResults: React.Dispatch<React.SetStateAction<ResultData[]>>) => {
@@ -28,7 +26,6 @@ const LotteryResults = () => {
         setResults(results);
       } catch (err) {
         console.error(`Error fetching ${collectionName} documents:`, err);
-        setError(`Failed to load data: ${err.message}`);
       }
     };
 
@@ -36,13 +33,10 @@ const LotteryResults = () => {
       fetchResults("Daily Result", setDailyResults),
       fetchResults("Weekly Result", setWeeklyResults),
       fetchResults("Monthly Result", setMonthlyResults),
-    ]).finally(() => setLoading(false));
+    ]);
   }, []);
 
   const currentDate = format(new Date(), 'MMMM dd, yyyy');
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <>
@@ -65,26 +59,22 @@ const LotteryResults = () => {
 const ResultsSection = ({ title, results }: { title: string, results: ResultData[] }) => (
   <div>
     <h2 className="text-xl font-semibold mb-4">{title}</h2>
-    {results.length === 0 ? (
-      <div className="text-gray-500">No results available</div>
-    ) : (
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Document ID</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Result</th>
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-gray-50">
+        <tr>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Document ID</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Result</th>
+        </tr>
+      </thead>
+      <tbody className="bg-white divide-y divide-gray-200">
+        {results.map(({ id, result }) => (
+          <tr key={id}>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{id}</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{result}</td>
           </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {results.map(({ id, result }) => (
-            <tr key={id}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{id}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{result}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    )}
+        ))}
+      </tbody>
+    </table>
   </div>
 );
 

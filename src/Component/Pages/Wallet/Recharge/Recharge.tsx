@@ -22,7 +22,7 @@ const Recharge: React.FC = () => {
         { upiId: 'rockykodi88@oksbi', name: 'Rocky Kodi' },
     ];
 
-    const rechargeOptions = [100, 200, 500, 1000, 2000, 2500, 3000, 5000];
+    const rechargeOptions = [100, 200, 500, 1000, 2000, 2500, 3000, 5000, 10000, 25000, 50000, 100000];
 
     const handleUtrSubmit = async () => {
         if (selectedUpiIndex === null) {
@@ -131,7 +131,6 @@ const Recharge: React.FC = () => {
                         type="text"
                         placeholder="Selected Recharge Amount"
                         value={rechargeAmount !== null ? `₹${rechargeAmount}` : ''}
-                        readOnly
                         className="border border-gray-300 p-2 rounded-lg w-[325px] mt-4 bg-gray-100 cursor-not-allowed" />
                     <input
                         type="text"

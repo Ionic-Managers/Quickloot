@@ -62,7 +62,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
     if (balance >= 75) {
       try {
         setPurchased(true);
-        const newBalance = balance - 149;
+        const newBalance = balance - 75;
         setBalance(newBalance);
 
         const q = query(collection(db, 'users'), where('uid', '==', userName.uid));
