@@ -58,7 +58,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
 
   const storage = getStorage();
 
-  const currentDate = new Date().toLocaleDateString();
+  const currentDate = new Date().toLocaleDateString('en-GB');
 
   const downloadTicket = async () => {
     if (balance >= 1499) {

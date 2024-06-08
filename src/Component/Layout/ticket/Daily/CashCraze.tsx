@@ -56,7 +56,7 @@ const PowerSwipe: React.FC<PowerSwipeProps> = ({ selectedNumbers, ticketCode }) 
 
   const storage = getStorage();
 
-  const currentDate = new Date().toLocaleDateString();
+  const currentDate = new Date().toLocaleDateString('en-GB');
 
   const downloadTicket = async () => {
     if (balance >= 89) {
