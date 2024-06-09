@@ -127,7 +127,7 @@ const LotteryCard: React.FC = () => {
   }
 
   return (
-    <div className="cardCon mt-20 md:overflow-x-hidden sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40 2xl:mt-48 w-full sm:w-full md:w-full lg:w-full mx-auto px-4 sm:px-0 flex flex-col gap-5 justify-center items-center">
+    <div className="cardCon mt-10 md:overflow-x-hidden sm:mt-20 md:mt-18 lg:mt-32 xl:mt-40 2xl:mt-48 w-full sm:w-full md:w-full lg:w-full mx-auto px-4 sm:px-0 flex flex-col gap-5 justify-center items-center">
       <h3 className="text-2xl font-extrabold m-5 text-center">Monthly Offers</h3>
       <div className="m-5 flex flex-wrap justify-center gap-5 sm:w-full sm:flex sm:flex-wrap sm:gap-4  md:w-full md:flex md:flex-wrap md:gap-4">
         {lotteryData.monthly.map((offer: LotteryData, index: number) => {
