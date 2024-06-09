@@ -77,7 +77,7 @@ const LotteryCarousel: React.FC = () => {
           </div>
         ))
       ) : (
-        <div className="flex justify-center items-center w-full h-full">
+        <div className="flex justify-center items-center w-full h-full my-8">
           <p className="text-xl font-bold">Results will be announced on 12 PM</p>
         </div>
       )}
