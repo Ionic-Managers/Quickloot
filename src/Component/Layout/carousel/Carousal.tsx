@@ -9,10 +9,12 @@ interface LotteryData {
 }
 
 const LotteryCarousel: React.FC = () => {
- const [lotteryData, setLotteryData] = useState<LotteryData[]>([]);
- const carouselRef = useRef<HTMLDivElement>(null);
+  const [lotteryData, setLotteryData] = useState<LotteryData[]>([]);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [showResults, setShowResults] = useState(false);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
- useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       const collections = ['Monthly Result', 'Weekly Result', 'Daily Result'];
       let allData: LotteryData[] = [];
@@ -26,14 +28,14 @@ const LotteryCarousel: React.FC = () => {
         allData = [...allData, ...data];
       }
 
-      const duplicatedData = [...allData, ...allData,...allData,...allData];
+      const duplicatedData = [...allData, ...allData, ...allData, ...allData];
       setLotteryData(duplicatedData);
     };
 
     fetchData();
- }, []);
+  }, []);
 
- useEffect(() => {
+  useEffect(() => {
     const carousel = carouselRef.current;
     if (carousel) {
       const scrollInterval = setInterval(() => {
@@ -44,21 +46,43 @@ const LotteryCarousel: React.FC = () => {
           }
         }
       }, 30);
-
       return () => clearInterval(scrollInterval);
     }
- }, [lotteryData]);
+  }, [lotteryData]);
 
- return (
-    <div className="slide carousel overflow-x-hidden flex p-4" ref={carouselRef}>
-      {lotteryData.map((game, index) => (
-        <div key={index} className="smallCard -mt-2 carousel-item flex-shrink-0 w-72 mr-4 p-4 bg-gradient-to-tr from-blue-600 via-blue-200 to-blue-500 rounded-md hover:scale-105 shadow-xl">
-          <h3 className="text-xl font-bold mb-2 text-center">{game.id}</h3>
-          <p className="text-gray-700 font-medium text-center">Result: {game.result}</p>
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      setCurrentTime(now);
+      const hours = now.getHours();
+      setShowResults(hours >= 12 && hours < 15);
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const now = new Date();
+    const hours = now.getHours();
+    setShowResults(hours >= 11 && hours < 15);
+  }, [currentTime]);
+
+  return (
+    <div className="slide carousel border-2 overflow-x-hidden flex p-4" ref={carouselRef}>
+      {showResults ? (
+        lotteryData.map((game, index) => (
+          <div key={index} className="smallCard -mt-2 carousel-item flex-shrink-0 w-72 mr-4 p-4 bg-gradient-to-tr from-blue-600 via-blue-200 to-blue-500 rounded-md hover:scale-105 shadow-xl">
+            <h3 className="text-xl font-bold mb-2 text-center">{game.id}</h3>
+            <p className="text-gray-700 font-medium text-center">Result: {game.result}</p>
+          </div>
+        ))
+      ) : (
+        <div className="flex justify-center items-center w-full h-full my-8">
+          <p className="text-xl font-bold">Results will be announced on 12 PM</p>
         </div>
-      ))}
+      )}
     </div>
- );
+  );
 };
 
 export default LotteryCarousel;

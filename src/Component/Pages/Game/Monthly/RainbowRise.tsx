@@ -155,7 +155,7 @@ const MonthlyGame: React.FC = () => {
               />
               <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
             </div>
-            <div className="grid grid-cols-2 gap-1 pl-3 pr-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1 pl-3 pr-3">
               {renderTicketButtons()}
             </div>
             {displayedTicketCodes.length < ticketCodes.length && (

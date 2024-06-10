@@ -8,21 +8,18 @@ import Footer from "../Component/Layout/footer/Footer";
 
 function DefaultLayout() {
   return (
-    <>
-      <div className="w-full">
-        <Header />
-      </div>
-      <div className="w-full relative top-24">
-        <HeroSection />
+    <div className="w-full">
+      <Header />
+      <div className="relative top-24">
+        <div className="p-1 mr-2">
+          <HeroSection />
+        </div>
         <Carousal />
         <LotteryCard />
         <Outlet />
       </div>
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901126073119757" crossorigin="anonymous"></script>
-      <div className="w-full">
-        <Footer />
-      </div>
-    </>
+      <Footer />
+    </div>
   );
 }
 
