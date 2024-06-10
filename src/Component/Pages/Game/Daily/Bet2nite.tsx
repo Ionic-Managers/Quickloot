@@ -96,7 +96,7 @@ const MonthlyGame: React.FC = () => {
           style={{ position: 'relative' }}
         >
           {isSold && <span className="absolute top-0 right-0 bg-red-500 text-white py-1 px-2 rounded-full text-xs">Sold</span>}
-          Bn{code}
+          BN{code}
         </button>
       );
     });
