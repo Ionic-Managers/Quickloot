@@ -131,7 +131,7 @@ function AdminForm() {
         </div>
 
         <div className="bg-white rounded-lg shadow overflow-auto mx-auto max-w-2xl ">
-          <div className="overflow-x-auto overflow-y-auto relative shadow-md sm:rounded-lg">
+          <div className="overflow-x-auto overflow-y-scroll h-80 relative shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
