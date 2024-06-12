@@ -21,6 +21,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
   const [balance, setBalance] = useState<number>(0);
   const [user] = useAuthState(auth);
   const [purchased, setPurchased] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserBalance = async () => {
@@ -60,6 +61,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
 
   const downloadTicket = async () => {
     if (balance >= 799) {
+      setIsProcessing(true);
       try {
         setPurchased(true);
         const newBalance = balance - 799;
@@ -108,6 +110,11 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
       const ticketImageRef = ref(storage, `${userName.uid}/${userName.uid}_${currentTime}.png`);
       await uploadBytes(ticketImageRef, blob);
 
+        setTimeout(() => {
+          setPurchased(true);
+          setIsProcessing(false);
+        }, 2000);
+
     }
     else {
       alert("Please Recharge")
@@ -144,7 +151,11 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
 
       </div>
       <div className="absolute top-72 left-20">
-        {purchased ? ( // If ticket is purchased
+        {isProcessing ? (
+          <button className="bg-blue-400 text-white font-bold py-2 px-4 ml-6 rounded-lg shadow-lg" disabled>
+            please wait
+          </button>
+        ) : purchased ? ( // If ticket is purchased
           <button className="bg-gray-400 text-white font-bold py-2 px-4 ml-6 rounded-lg shadow-lg" disabled>
             Purchased
           </button>

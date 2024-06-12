@@ -21,6 +21,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
   const [balance, setBalance] = useState<number>(0);
   const [user] = useAuthState(auth);
   const [purchased, setPurchased] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserBalance = async () => {
@@ -60,6 +61,7 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
 
   const downloadTicket = async () => {
     if (balance >= 699) {
+      setIsProcessing(true);
       try {
         setPurchased(true);
         const newBalance = balance - 699;
@@ -107,6 +109,11 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
       const currentTime = new Date().toTimeString().split(' ')[0].replace(/:/g, '-');
       const ticketImageRef = ref(storage, `${userName.uid}/${userName.uid}_${currentTime}.png`);
       await uploadBytes(ticketImageRef, blob);
+
+        setTimeout(() => {
+          setPurchased(true);
+          setIsProcessing(false);
+        }, 2000);
     }
     else {
       alert("Please Recharge")
@@ -133,11 +140,15 @@ const MintedMillions: React.FC<MintedMillionsProps> = ({ selectedNumbers, ticket
         <p className='text-[10px] text-white relative -top-8 left-16 sm:text-lg sm:relative sm:-top-[75px] sm:left-[150px]'>{nextMonthlyDate}</p>
       </div>
       <div className="absolute top-72 left-28">
-        {purchased ? ( // If ticket is purchased
+        {isProcessing ? (
+          <button className="bg-blue-400 text-white font-bold py-2 px-4 ml-6 rounded-lg shadow-lg" disabled>
+            please wait
+          </button>
+        ) : purchased ? ( 
           <button className="bg-gray-400 text-white font-bold py-2 px-4 ml-6 rounded-lg shadow-lg" disabled>
             Purchased
           </button>
-        ) : ( // If ticket is not purchased
+        ) : ( 
           <button onClick={downloadTicket} className="bg-yellow-300 hover:bg-yellow-400 text-blue-800 font-bold py-2 px-4 ml-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
             Buy now
           </button>
