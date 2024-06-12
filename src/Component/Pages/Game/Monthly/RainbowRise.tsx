@@ -21,7 +21,7 @@ const MonthlyGame: React.FC = () => {
   const [soldTickets, setSoldTickets] = useState<string[]>([]);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const [ticketsDisplayedCount, setTicketsDisplayedCount] = useState(500);
-  const ticketsPerPage = 500;
+  const ticketsPerPage = 100;
   const db = getFirestore();
 
   useEffect(() => {
