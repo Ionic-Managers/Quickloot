@@ -63,7 +63,7 @@ const MonthlyGame: React.FC = () => {
     let generatedCodes = [...specificCodes];
     let lastGeneratedCode = specificCodes[specificCodes.length - 1];
 
-    while (generatedCodes.length < 1000) {
+    while (generatedCodes.length < 1050) {
       lastGeneratedCode++;
       generatedCodes.push(lastGeneratedCode);
     }
