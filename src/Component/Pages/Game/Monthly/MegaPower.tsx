@@ -168,7 +168,9 @@ const MonthlyGame: React.FC = () => {
                 <button
                   onClick={loadMoreTickets}
                   className="text-red-600 font-bold"
-                >
+                ><span className="text-gray-600 mb-2">
+                ({ticketCodes.length - displayedTicketCodes.length} )
+              </span>
                  ... More ...
                 </button>
               </div>

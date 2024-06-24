@@ -19,8 +19,8 @@ const MonthlyGame: React.FC = () => {
   const [search, setSearch] = useState('');
   const [ticketsGenerated, setTicketsGenerated] = useState(false);
   const [soldTickets, setSoldTickets] = useState<string[]>([]);
-  const [ticketsDisplayedCount, setTicketsDisplayedCount] = useState(100);
-  const ticketsPerPage = 100;
+  const [ticketsDisplayedCount, setTicketsDisplayedCount] = useState(200);
+  const ticketsPerPage = 200;
   const db = getFirestore();
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const MonthlyGame: React.FC = () => {
     let generatedCodes = [...specificCodes];
     let lastGeneratedCode = specificCodes[specificCodes.length - 1];
 
-    while (generatedCodes.length < 1050) {
+    while (generatedCodes.length < 2100) {
       lastGeneratedCode++;
       generatedCodes.push(lastGeneratedCode);
     }
@@ -164,7 +164,9 @@ const MonthlyGame: React.FC = () => {
                 <button
                   onClick={loadMoreTickets}
                   className="text-red-600 font-bold"
-                >
+                ><span className="text-gray-600 mb-2">
+                ({ticketCodes.length - displayedTicketCodes.length} )
+              </span>
                  ... More ...
                 </button>
               </div>
