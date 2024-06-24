@@ -20,8 +20,8 @@ const MonthlyGame: React.FC = () => {
   const [ticketsGenerated, setTicketsGenerated] = useState(false);
   const [soldTickets, setSoldTickets] = useState<string[]>([]);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
-  const [ticketsDisplayedCount, setTicketsDisplayedCount] = useState(200);
-  const ticketsPerPage = 200;
+  const [ticketsDisplayedCount, setTicketsDisplayedCount] = useState(300);
+  const ticketsPerPage = 300;
   const db = getFirestore();
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const MonthlyGame: React.FC = () => {
     let generatedCodes = [...specificCodes];
     let lastGeneratedCode = specificCodes[specificCodes.length - 1];
 
-    while (generatedCodes.length < 2200) {
+    while (generatedCodes.length < 3100) {
       lastGeneratedCode++;
       generatedCodes.push(lastGeneratedCode);
     }

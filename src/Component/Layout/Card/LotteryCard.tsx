@@ -203,53 +203,69 @@ const LotteryCard: React.FC = () => {
       </div>
 
       <h3 className="text-2xl font-extrabold m-3 text-center">Daily Offers</h3>
-      <div className="m-5 pb-48 flex flex-wrap justify-center gap-5 sm:w-full sm:flex sm:flex-wrap sm:gap-4">
-        {lotteryData.daily.map((offer: LotteryData, index: number) => {
-          const fullName = offer.name;
-          const nameParts = fullName.trim().split(' ');
-          let firstName, middleName, lastName;
+  <div className="m-5 pb-48 flex flex-wrap justify-center gap-5 sm:w-full sm:flex sm:flex-wrap sm:gap-4">
+  {lotteryData.daily.map((offer: LotteryData, index: number) => {
+    const fullName = offer.name;
+    const nameParts = fullName.trim().split(' ');
+    let firstName = '', middleName = '', lastName = '';
 
-          if (nameParts.length === 1) {
-            firstName = nameParts[0];
-            middleName = '';
-            lastName = '';
-          } else {
-            firstName = nameParts[0];
-            lastName = nameParts[nameParts.length - 1];
-            middleName = nameParts.slice(1, -1).join(' ');
-          }
+    if (nameParts.length === 1) {
+      firstName = nameParts[0];
+    } else {
+      firstName = nameParts[0];
+      lastName = nameParts[nameParts.length - 1];
+      if (nameParts.length > 2) {
+        middleName = nameParts.slice(1, -1).join(' ');
+      }
+    }
 
-          return (
-            <div key={index} className="box rounded-lg p-4 mb-1 w-[280px] sm:w-[400px] lg:w-[400px] xl:w-[600px] 2xl:w-[700px] h-[200px] shadow-xl transform hover:scale-105">
-              <div className='belt bg-gradient-to-b h-12 from-slate-100 to-slate-300 w-[280px] sm:w-[400px] md:w-[400px] -ml-4 -mt-4'>
-                <h4 className="text-lg alfa text-blue-800 p-2" style={{ fontFamily: "'Font1', 'Font2', sans-serif", fontWeight: 'bold' }}>
-                  <span className='text-xl' style={{ color: "rgb(28, 22, 120)" }}>{firstName}</span>{" "}
-                  {middleName && <span className='text-xl' style={{ color: "rgb(252, 103, 54)" }}>{middleName}</span>}
-                  {lastName && <span className='text-xl' style={{ fontFamily: "'Font2', sans-serif", color: "rgb(139, 50, 44)" }}>{lastName}</span>}
-                </h4>
-              </div>
-              <h1 className="text-xl font-extrabold mt-4 mb-2">₹ {offer.total}</h1>
-              <div className='flex flex-row items-center gap-2'>
-                <BsTags />
-                <p className="text-sm text-gray-600">₹ {offer.ticketAmount}</p>
-              </div>
-              <div className="flex items-center">
-                <LuAlarmClock />
-                <span className="text-sm ml-2">{dailyTime}</span>
-              </div>
-              <div className='flex flex-row items-center gap-2'>
-                <IoIosInformationCircleOutline color='blue' />
-                <Link to="/lottery-info" className="text-blue-500 no-underline">
-                  <span>About</span>
-                </Link>
-              </div>
-              <Link to={`/Daily/${offer.path}`} className="flex justify-center">
-                <button className="playbtn border-yellow-500 border-2 font-bold rounded-full text-yellow-500 ml-[120px] w-40 cursor-pointer md:w-32 md:p-1 md:-mt-4 md:ml-52" type="button">Play now</button>
-              </Link>
-            </div>
-          );
-        })}
+    return (
+      <div key={index} className="box rounded-lg p-4 mb-1 w-[280px] sm:w-[400px] lg:w-[400px] xl:w-[600px] 2xl:w-[700px] h-[200px] shadow-xl transform hover:scale-105">
+        <div className='belt bg-gradient-to-b h-12 from-slate-100 to-slate-300 w-[280px] sm:w-[400px] md:w-[400px] -ml-4 -mt-4'>
+          <h4 className="text-lg alfa text-blue-800 p-2" style={{ fontFamily: "'Font1', 'Font2', sans-serif", fontWeight: 'bold' }}>
+            {firstName && (
+              <span className='text-xl' style={{ fontFamily: "'Font2', sans-serif", color: "rgb(139, 50, 44)" }}>
+                {firstName}
+                {(firstName === "GoldRush") && <span className="ml-2 text-xl absolute right-1" style={{ color: "rgb(252, 103, 54)" }}> X10</span>}
+              </span>
+            )}
+            {middleName && (
+              <span className='text-xl' style={{ fontFamily: "'Font2', sans-serif", color: "rgb(139, 50, 44)" }}>
+                {middleName}
+                {(middleName === "&") && <span className="ml-2 text-xl absolute right-1" style={{ color: "rgb(252, 103, 54)" }}> X10</span>}
+              </span>
+            )}
+            {lastName && (
+              <span className='text-xl' style={{ fontFamily: "'Font2', sans-serif", color: "rgb(139, 50, 44)" }}>
+                {lastName}
+                {(lastName === "shots"||lastName === "wave" || lastName === "victory") && <span className="ml-2 text-xl absolute right-1" style={{ color: "rgb(252, 103, 54)" }}>X10</span>}
+              </span>
+            )}
+          </h4>
+        </div>
+        <h1 className="text-xl font-extrabold mt-4 mb-2">₹ {offer.total}</h1>
+        <div className='flex flex-row items-center gap-2'>
+          <BsTags />
+          <p className="text-sm text-gray-600">₹ {offer.ticketAmount}</p>
+        </div>
+        <div className="flex items-center">
+          <LuAlarmClock />
+          <span className="text-sm ml-2">{dailyTime}</span>
+        </div>
+        <div className='flex flex-row items-center gap-2'>
+          <IoIosInformationCircleOutline color='blue' />
+          <Link to="/lottery-info" className="text-blue-500 no-underline">
+            <span>About</span>
+          </Link>
+        </div>
+        <Link to={`/Daily/${offer.path}`} className="flex justify-center">
+          <button className="playbtn border-yellow-500 border-2 font-bold rounded-full text-yellow-500 ml-[120px] w-40 cursor-pointer md:w-32 md:p-1 md:-mt-4 md:ml-52" type="button">Play now</button>
+        </Link>
       </div>
+    );
+  })}
+</div>
+
     </div>
   );
 };
