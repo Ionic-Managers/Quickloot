@@ -202,7 +202,7 @@ const LotteryCard: React.FC = () => {
         })}
       </div>
 
-      <h3 className="text-2xl font-extrabold m-3 text-center">Daily Offers</h3>
+      <h3 className="text-2xl font-extrabold m-3 text-center">Daily Offers<span className="text-red-500 font-medium">(coming soon)</span></h3>
   <div className="m-5 pb-48 flex flex-wrap justify-center gap-5 sm:w-full sm:flex sm:flex-wrap sm:gap-4">
   {lotteryData.daily.map((offer: LotteryData, index: number) => {
     const fullName = offer.name;
@@ -259,7 +259,7 @@ const LotteryCard: React.FC = () => {
           </Link>
         </div>
         <Link to={`/Daily/${offer.path}`} className="flex justify-center">
-          <button className="playbtn border-yellow-500 border-2 font-bold rounded-full text-yellow-500 ml-[120px] w-40 cursor-pointer md:w-32 md:p-1 md:-mt-4 md:ml-52" type="button">Play now</button>
+          <button className="playbtn border-yellow-500 border-2 font-bold rounded-full text-yellow-500 ml-[120px] w-40 cursor-pointer md:w-32 md:p-1 md:-mt-4 md:ml-52" type="button" disabled>Play now</button>
         </Link>
       </div>
     );
