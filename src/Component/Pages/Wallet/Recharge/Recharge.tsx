@@ -18,8 +18,8 @@ const Recharge: React.FC = () => {
 
     const qrDetails = [
         { upiId: 'saran2002murugan-1@oksbi', name: 'Saravanan M' },
-        { upiId: 'mchinnadurai582@okicici', name: 'M Chinnadurai' },
-        { upiId: 'rockykodi88@oksbi', name: 'Rocky Kodi' },
+        // { upiId: 'mchinnadurai582@okicici', name: 'M Chinnadurai' },
+        // { upiId: 'rockykodi88@oksbi', name: 'Rocky Kodi' },
     ];
 
     const rechargeOptions = [100, 200, 500, 1000, 2000, 2500, 3000, 5000, 10000, 25000, 50000, 100000];
@@ -86,17 +86,18 @@ const Recharge: React.FC = () => {
 
     return (
         <>
+        {/* grid grid-cols-3 md:grid-cols-3 gap-3 */}
             <Header />
             <div className="flex flex-col items-center justify-center">
                 <h1 className="text-2xl font-bold text-gray-700 mb-6 mt-24">Recharge Your Wallet</h1>
-                <div className="px-1 grid grid-cols-3 md:grid-cols-3 gap-3 mb-6">
+                <div className="px-1  mb-6">
                     {qrDetails.map((qr, index) => (
                         <button
                             key={index}
                             onClick={() => setSelectedUpiIndex(index)}
                             className={`p-4 border rounded-lg focus:outline-none ${selectedUpiIndex === index ? 'border-blue-500' : 'border-gray-300'}`}>
                             <p className="text-lg text-gray-800">UPI</p>
-                            <img src={logo} alt={`UPI logo ${index + 1}`} className="w-full h-auto" />
+                            <img src={logo} alt={`UPI logo ${index + 1}`} className="w-full h-auto " />
                         </button>
                     ))}
                 </div>
