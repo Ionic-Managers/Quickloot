@@ -202,7 +202,7 @@ const LotteryCard: React.FC = () => {
         })}
       </div>
 
-      <h3 className="text-2xl font-extrabold m-3 text-center">Daily Offers<span className="text-red-500 font-medium">(coming soon)</span></h3>
+      <h3 className="text-2xl font-extrabold m-3 text-center">Daily Offers<span className="block text-red-500 font-medium">(coming soon)</span></h3>
   <div className="m-5 pb-48 flex flex-wrap justify-center gap-5 sm:w-full sm:flex sm:flex-wrap sm:gap-4">
   {lotteryData.daily.map((offer: LotteryData, index: number) => {
     const fullName = offer.name;
@@ -226,19 +226,19 @@ const LotteryCard: React.FC = () => {
             {firstName && (
               <span className='text-xl' style={{ fontFamily: "'Font2', sans-serif", color: "rgb(139, 50, 44)" }}>
                 {firstName}
-                {(firstName === "GoldRush") && <span className="ml-2 text-xl absolute right-1" style={{ color: "rgb(252, 103, 54)" }}> X10</span>}
+                {(firstName === "GoldRush") && <span className="ml-2 text-xl absolute right-1" style={{ color: "rgb(252, 103, 54)" }}> x10</span>}
               </span>
             )}
             {middleName && (
               <span className='text-xl' style={{ fontFamily: "'Font2', sans-serif", color: "rgb(139, 50, 44)" }}>
                 {middleName}
-                {(middleName === "&") && <span className="ml-2 text-xl absolute right-1" style={{ color: "rgb(252, 103, 54)" }}> X10</span>}
+                {(middleName === "&") && <span className="ml-2 text-xl absolute right-1" style={{ color: "rgb(252, 103, 54)" }}> x10</span>}
               </span>
             )}
             {lastName && (
               <span className='text-xl' style={{ fontFamily: "'Font2', sans-serif", color: "rgb(139, 50, 44)" }}>
                 {lastName}
-                {(lastName === "shots"||lastName === "wave" || lastName === "victory") && <span className="ml-2 text-xl absolute right-1" style={{ color: "rgb(252, 103, 54)" }}>X10</span>}
+                {(lastName === "shots"||lastName === "wave" || lastName === "victory") && <span className="ml-2 text-xl absolute right-1" style={{ color: "rgb(252, 103, 54)" }}>x10</span>}
               </span>
             )}
           </h4>

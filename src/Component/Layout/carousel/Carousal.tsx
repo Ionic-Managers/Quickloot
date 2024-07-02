@@ -72,13 +72,13 @@ const LotteryCarousel: React.FC = () => {
       {showResults ? (
         lotteryData.map((game, index) => (
           <div key={index} className="smallCard -mt-2 carousel-item flex-shrink-0 w-72 mr-4 p-4 bg-gradient-to-tr from-blue-600 via-blue-200 to-blue-500 rounded-md hover:scale-105 shadow-xl">
-            <h3 className="text-xl font-bold mb-2 text-center">{game.id}</h3>
-            <p className="text-gray-700 font-medium text-center">Result: {game.result}</p>
+            <h3 className="text-xl font-bold mb-2 text-center text-white">{game.id}</h3>
+            <p className="text-gray-200 font-medium text-center">Result: {game.result}</p>
           </div>
         ))
       ) : (
         <div className="flex justify-center items-center w-full h-full my-8">
-          <p className="text-xl font-bold">Results will be announced on 12 PM</p>
+          <p className="text-xl font-bold text-gray-600">Results will be announced at 12 PM</p>
         </div>
       )}
     </div>
